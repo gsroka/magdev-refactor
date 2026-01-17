@@ -25,6 +25,7 @@
 ### ✅ Phase 1: Environment & Tooling
 - [x] Repository initialization and dependency audit.
 - [x] Initial bug discovery and technical debt assessment.
+- [x] Dependency minor upgrades.
 - [ ] Setup ESLint, Prettier.
 
 </details>
