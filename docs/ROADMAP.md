@@ -26,6 +26,8 @@
 - [x] Repository initialization and dependency audit.
 - [x] Initial bug discovery and technical debt assessment.
 - [x] Dependency minor upgrades.
-- [ ] Setup ESLint, Prettier.
+- [x] Setup ESLint, Prettier.
+- [ ] Run ESLint 
+- [ ] Run Prettier.
 
 </details>
