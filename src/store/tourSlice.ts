@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-interface TourState {
+export interface TourState {
   currentStep: number;
   isActive: boolean;
 }

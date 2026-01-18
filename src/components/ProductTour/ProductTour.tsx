@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { setCurrentStep, prevStep } from '../../store/tourSlice';
+import { useAppSelector, useAppDispatch } from '@/store/hooks.ts';
+import { setCurrentStep, prevStep } from '@/store/tourSlice.ts';
 
 const tourSteps: any = [
   {
@@ -89,8 +89,8 @@ export default function ProductTour({ onEndTour }: ProductTourProps) {
         const rect = targetElement.getBoundingClientRect();
         setTargetRect(rect);
 
-        let top = 0;
-        let left = 0;
+        let top;
+        let left;
         const tooltipWidth = 320;
         const tooltipHeight = 180;
         const offset = 12;

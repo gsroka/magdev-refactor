@@ -30,9 +30,9 @@
 - [x] Setup ESLint, Prettier.
 - [x] Configure `vite.config.ts` alias and plugins.
 - [x] Type errors.
+- [x] Build errors.
 - [ ] Run ESLint (Fix errors).
 - [ ] Run Prettier (Format code).
-- [ ] Build errors.
 
 ### 🚧 Phase X: Core Refactoring
 

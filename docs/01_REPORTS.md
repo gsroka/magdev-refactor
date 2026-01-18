@@ -22,6 +22,14 @@ TODO
 - **Fix:** Updated all type-only imports to use the explicit `import type { ... }` or `import { type ... }` syntax.
 - **Trade-offs:** Slightly increased verbosity in import statements, but ensures safe transpilation and prevents runtime crashes in modern build environments.
 
+---
+
+* ### **Fixing Type Visibility in Redux Inference (TS4023)**
+* **Issue:** The build failed with error `TS4023` in `store.ts` and `hooks.ts`. TypeScript could not generate the type definition for the Redux `store` because it relied on `TourState`, which was not exported.
+* **Why:** The `configureStore` function infers the root state type automatically. If a slice (like `tourSlice`) uses a local, non-exported interface (`TourState`), the resulting RootState becomes "unnameable" outside that module. TypeScript requires all types exposed via a public API (the store) to be exported as well.
+* **Fix:** Added the `export` keyword to the `TourState` interface in `src/store/tourSlice.ts`.
+* **Trade-offs:** None. This is a requirement for inferred types in TypeScript.
+
 ## ⚛️ React Patterns & State Management
 
 - **XXX**
