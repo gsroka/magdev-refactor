@@ -1,15 +1,6 @@
-import { createContext, useContext, type ReactNode, useState } from 'react';
-
-interface AppSettings {
-  theme: 'light' | 'dark';
-  language: string;
-  notificationsEnabled: boolean;
-}
-
-interface AppSettingsContextType {
-  settings: AppSettings;
-  updateSettings: (settings: Partial<AppSettings>) => void;
-}
+import { type ReactNode, useState } from 'react';
+import type { AppSettings } from '@/context';
+import { AppSettingsContext } from '@/context';
 
 const defaultSettings: AppSettings = {
   theme: 'light',
@@ -17,7 +8,6 @@ const defaultSettings: AppSettings = {
   notificationsEnabled: true,
 };
 
-const AppSettingsContext = createContext<AppSettingsContextType | undefined>(undefined);
 
 interface AppSettingsProviderProps {
   children: ReactNode;
@@ -36,12 +26,4 @@ export function AppSettingsProvider({ children }: AppSettingsProviderProps) {
   };
 
   return <AppSettingsContext.Provider value={value}>{children}</AppSettingsContext.Provider>;
-}
-
-export function useAppSettings() {
-  const context = useContext(AppSettingsContext);
-  if (context === undefined) {
-    throw new Error('useAppSettings must be used within AppSettingsProvider');
-  }
-  return context;
 }

@@ -32,7 +32,7 @@
 - [x] Type errors.
 - [x] Build errors.
 - [x] Run Prettier (Format code).
-- [ ] Run ESLint (Fix errors).
+- [x] Run ESLint (Fix errors).
 
 ### 🚧 Phase X: Core Refactoring
 

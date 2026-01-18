@@ -48,6 +48,14 @@ TODO
 * **Fix:** Replaced `any` with specific Material UI types: `PaletteOptions` for color definitions and `Components` for component style overrides, imported directly from `@mui/material/styles`.
 * **Trade-offs:** Requires precise knowledge of the Material UI type hierarchy (`Options` types vs. runtime types), but guarantees IntelliSense support across the application.
 
+## 🏗️ Architecture & Data Flow
+
+* ### **Context Architecture Restructuring for Fast Refresh Support**
+* **Issue:** The `AppSettingsContext.tsx` file triggered a `react-refresh/only-export-components` warning because it mixed component exports (Provider) with non-component exports (Hooks, Types).
+* **Why:** Modern React tooling (Vite/Fast Refresh) cannot reliably preserve component state during Hot Module Replacement (HMR) if a file contains mixed exports. This forces full page reloads during development, significantly degrading the Developer Experience (DX).
+* **Fix:** Decomposed the monolithic file into dedicated modules: types, the custom hook, and the context definition, adhering to the Single Responsibility Principle.
+* **Trade-offs:** Increases the total file count in the project structure but guarantees instant state preservation during code edits.
+
 ## ⚛️ React Patterns & State Management
 
 - **XXX**
@@ -72,7 +80,7 @@ TODO
 - **Fix** XXX.
 - **Trade-offs** XXX.
 
-## 🏗️ Code Architecture & Error Handling
+## 🚨 Error Handling
 
 - **XXX**
 - **Issue:** XXX.

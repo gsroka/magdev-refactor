@@ -20,7 +20,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { useAppSettings } from '../context/AppSettingsContext';
+import { useAppSettings } from '@/context';
 
 const DRAWER_WIDTH = 240;
 

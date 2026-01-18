@@ -6,14 +6,14 @@
 
 **Bugs:**
 
-- ESLint ~150
-- Tour: Step 2 is not working.
 - Buttons:
   - A notification bell does nothing.
   - Avatar doesn't open a menu.
   - "Add User" and "Edit User" only trigger `console.log`.
 - Navigation: All sidebar links (Dashboard, Users, Settings) are static.
-- ~~Build errors ~10~~
+- ~~Tour: Step 2 is not working.~~
+- ~~Build errors 10~~
+- ~~ESLint >50~~
 
 **UI/UX:**
 
