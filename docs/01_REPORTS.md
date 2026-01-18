@@ -30,6 +30,16 @@ TODO
 * **Fix:** Added the `export` keyword to the `TourState` interface in `src/store/tourSlice.ts`.
 * **Trade-offs:** None. This is a requirement for inferred types in TypeScript.
 
+---
+
+* ### **Elimination of `any` & Fix of Stale Closures in ProductTour**
+* **Issue:** The `ProductTour` component used the explicit `any` type for step definitions and violated the `react-hooks/exhaustive-deps` rule in `useCallback`.
+* **Why:**
+  1.  **`any`:** Disables TypeScript's protection, making it impossible to catch missing properties (e.g., a typo in `selector`) at compile time.
+  2.  **Missing Deps:** Ignoring dependencies in `useCallback` creates "stale closures," where the function fails to see the updated values of `currentTourStep` or `dispatch`, leading to potential logic bugs where the tour gets stuck.
+* **Fix:** Defined a strict `TourStep` interface to replace `any` and updated the `useCallback` dependency array to include all referenced variables.
+* **Trade-offs:** We must strictly adhere to the `TourStep` shape; adding arbitrary properties to tour steps is no longer possible without updating the interface.
+
 ## ⚛️ React Patterns & State Management
 
 - **XXX**

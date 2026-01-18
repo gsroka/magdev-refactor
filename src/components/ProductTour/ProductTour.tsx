@@ -4,7 +4,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useAppSelector, useAppDispatch } from '@/store/hooks.ts';
 import { setCurrentStep, prevStep } from '@/store/tourSlice.ts';
 
-const tourSteps: any = [
+interface TourStep {
+  selector: string;
+  title: string;
+  content: string;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+}
+
+const tourSteps: TourStep[] = [
   {
     selector: '.tour-trigger-button',
     title: 'Welcome to OmniGuide!',
@@ -64,7 +71,7 @@ export default function ProductTour({ onEndTour }: ProductTourProps) {
     const nextStep = calculateNextStep(currentTourStep, skipCount);
     console.log('Next clicked, current step:', currentTourStep, 'skipCount:', skipCount);
     dispatch(setCurrentStep(nextStep));
-  }, []);
+  }, [currentTourStep, skipCount, dispatch]);
 
   const handlePrev = () => {
     if (currentTourStep > 0) {
