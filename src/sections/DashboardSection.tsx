@@ -10,10 +10,7 @@ interface DashboardSectionProps {
   onEndTour: () => void;
 }
 
-export default function DashboardSection({
-  onStartTour,
-  onEndTour,
-}: DashboardSectionProps) {
+export default function DashboardSection({ onStartTour, onEndTour }: DashboardSectionProps) {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -44,12 +41,7 @@ export default function DashboardSection({
         isTourActive={tourState.isActive}
       />
 
-      <UserSection
-        onStartTour={onStartTour}
-        onEndTour={onEndTour}
-      />
+      <UserSection onStartTour={onStartTour} onEndTour={onEndTour} />
     </Box>
   );
 }
-
-

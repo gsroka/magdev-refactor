@@ -35,11 +35,7 @@ export function AppSettingsProvider({ children }: AppSettingsProviderProps) {
     updateSettings,
   };
 
-  return (
-    <AppSettingsContext.Provider value={value}>
-      {children}
-    </AppSettingsContext.Provider>
-  );
+  return <AppSettingsContext.Provider value={value}>{children}</AppSettingsContext.Provider>;
 }
 
 export function useAppSettings() {

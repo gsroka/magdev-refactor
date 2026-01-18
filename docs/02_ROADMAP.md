@@ -23,6 +23,7 @@
 <summary><strong>View Implementation Roadmap</strong></summary>
 
 ### ✅ Phase 1: Environment & Tooling
+
 - [x] Repository initialization and dependency audit.
 - [x] Initial bug discovery and technical debt assessment.
 - [x] Dependency minor upgrades.
@@ -34,6 +35,7 @@
 - [ ] Build errors.
 
 ### 🚧 Phase X: Core Refactoring
+
 - [ ] Remove global DOM selectors (Tour engine).
 - [ ] Fix Redux `initialHook` error.
 - [ ] Refactor "Tour" steps logic.

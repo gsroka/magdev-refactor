@@ -38,7 +38,7 @@ const tourSteps: any = [
   {
     selector: '.notifications-button',
     title: 'Notifications',
-    content: 'Check your notifications here. You\'re all caught up!',
+    content: "Check your notifications here. You're all caught up!",
     position: 'bottom',
   },
 ];
@@ -47,13 +47,11 @@ interface ProductTourProps {
   onEndTour: () => void;
 }
 
-export default function ProductTour({
-  onEndTour,
-}: ProductTourProps) {
+export default function ProductTour({ onEndTour }: ProductTourProps) {
   const dispatch = useAppDispatch();
   const currentTourStep = useAppSelector((state) => state.tour.currentStep);
   const isTourActive = useAppSelector((state) => state.tour.isActive);
-  
+
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [skipCount] = useState(0);
@@ -201,11 +199,7 @@ export default function ProductTour({
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
             {step.title}
           </Typography>
-          <Button
-            size="small"
-            onClick={handleSkip}
-            sx={{ minWidth: 'auto', p: 0.5 }}
-          >
+          <Button size="small" onClick={handleSkip} sx={{ minWidth: 'auto', p: 0.5 }}>
             <CloseIcon fontSize="small" />
           </Button>
         </Box>
@@ -245,5 +239,3 @@ export default function ProductTour({
     </>
   );
 }
-
-

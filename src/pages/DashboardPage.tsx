@@ -5,16 +5,6 @@ interface DashboardPageProps {
   onEndTour: () => void;
 }
 
-export default function DashboardPage({
-  onStartTour,
-  onEndTour,
-}: DashboardPageProps) {
-  return (
-    <DashboardView
-      onStartTour={onStartTour}
-      onEndTour={onEndTour}
-    />
-  );
+export default function DashboardPage({ onStartTour, onEndTour }: DashboardPageProps) {
+  return <DashboardView onStartTour={onStartTour} onEndTour={onEndTour} />;
 }
-
-

@@ -22,10 +22,7 @@ interface StatCardData {
   trend?: string;
 }
 
-export default function StatCards({
-  stats,
-  loading,
-}: StatCardsProps) {
+export default function StatCards({ stats, loading }: StatCardsProps) {
   const localTourStep = useTourStep();
   // localTourStep is used but always returns stale value due to hook bug
   // This demonstrates the custom hook state sync issue - value never updates from Redux
@@ -131,21 +128,14 @@ export default function StatCards({
               }}
             >
               <Box>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 0.5 }}
-                >
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
                   {card.title}
                 </Typography>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>
                   {card.value}
                 </Typography>
                 {card.trend && (
-                  <Typography
-                    variant="caption"
-                    sx={{ color: '#2e7d32', fontWeight: 500 }}
-                  >
+                  <Typography variant="caption" sx={{ color: '#2e7d32', fontWeight: 500 }}>
                     {card.trend} vs last month
                   </Typography>
                 )}
@@ -171,5 +161,3 @@ export default function StatCards({
     </Box>
   );
 }
-
-

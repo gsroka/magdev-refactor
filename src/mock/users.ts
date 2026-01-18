@@ -59,5 +59,3 @@ export const delayedUser: User = {
   status: 'Active',
   joinDate: '2024-12-01',
 };
-
-

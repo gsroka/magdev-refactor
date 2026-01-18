@@ -18,10 +18,10 @@ export default ts.config(
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: {
         ...globals.browser,
-        ...globals.es2020,
+        ...globals.es2022,
       },
     },
     plugins: {

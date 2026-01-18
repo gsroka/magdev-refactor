@@ -11,9 +11,7 @@ interface UserSectionProps {
   onEndTour: () => void;
 }
 
-export default function UserSection({
-  onEndTour,
-}: UserSectionProps) {
+export default function UserSection({ onEndTour }: UserSectionProps) {
   const [users] = useState<User[]>(initialUsers);
   const [featuredUser, setFeaturedUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
@@ -47,11 +45,7 @@ export default function UserSection({
         isTourActive={tourState.isActive}
       />
 
-      <ProductTour
-        onEndTour={onEndTour}
-      />
+      <ProductTour onEndTour={onEndTour} />
     </Box>
   );
 }
-
-

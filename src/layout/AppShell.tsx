@@ -36,10 +36,7 @@ const navItems = [
   { text: 'Settings', icon: <SettingsIcon /> },
 ];
 
-export default function AppShell({
-  children,
-  onStartTour,
-}: AppShellProps) {
+export default function AppShell({ children, onStartTour }: AppShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const appSettings = useAppSettings();
 
@@ -50,10 +47,7 @@ export default function AppShell({
   const drawerContent = (
     <Box sx={{ overflow: 'auto', mt: 2 }}>
       <Box sx={{ px: 2, mb: 3 }}>
-        <Typography
-          variant="h6"
-          sx={{ color: '#fff', fontWeight: 700, letterSpacing: '-0.5px' }}
-        >
+        <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, letterSpacing: '-0.5px' }}>
           OmniGuide
         </Typography>
         <Typography variant="caption" sx={{ color: '#94a3b8' }}>
@@ -72,9 +66,7 @@ export default function AppShell({
                 },
               }}
             >
-              <ListItemIcon sx={{ color: '#94a3b8', minWidth: 40 }}>
-                {item.icon}
-              </ListItemIcon>
+              <ListItemIcon sx={{ color: '#94a3b8', minWidth: 40 }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
@@ -107,7 +99,7 @@ export default function AppShell({
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Dashboard
           </Typography>
-          
+
           {/* Tour trigger button - target for ProductTour */}
           <Button
             variant="outlined"
@@ -118,15 +110,12 @@ export default function AppShell({
           >
             Start Tour
           </Button>
-          
+
           <IconButton color="inherit" className="notifications-button">
             <NotificationsIcon />
           </IconButton>
-          
-          <Avatar
-            sx={{ ml: 2, width: 32, height: 32, bgcolor: '#1976d2' }}
-            className="user-avatar"
-          >
+
+          <Avatar sx={{ ml: 2, width: 32, height: 32, bgcolor: '#1976d2' }} className="user-avatar">
             U
           </Avatar>
         </Toolbar>
@@ -182,4 +171,3 @@ export default function AppShell({
     </Box>
   );
 }
-

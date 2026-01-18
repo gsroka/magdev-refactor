@@ -37,11 +37,7 @@ const getStatusColor = (status: User['status']) => {
   }
 };
 
-export default function UserTable({
-  users,
-  featuredUser,
-  loading,
-}: UserTableProps) {
+export default function UserTable({ users, featuredUser, loading }: UserTableProps) {
   // Combine users with featured user (if loaded)
   const allUsers = featuredUser ? [...users, featuredUser] : users;
 
@@ -103,22 +99,13 @@ export default function UserTable({
                 <TableCell component="th" scope="row">
                   {user.name}
                   {user.id === 99 && (
-                    <Chip
-                      label="NEW"
-                      size="small"
-                      color="primary"
-                      sx={{ ml: 1, height: 20 }}
-                    />
+                    <Chip label="NEW" size="small" color="primary" sx={{ ml: 1, height: 20 }} />
                   )}
                 </TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Chip
-                    label={user.status}
-                    color={getStatusColor(user.status)}
-                    size="small"
-                  />
+                  <Chip label={user.status} color={getStatusColor(user.status)} size="small" />
                 </TableCell>
                 <TableCell>{user.joinDate}</TableCell>
                 <TableCell align="right">
@@ -140,5 +127,3 @@ export default function UserTable({
     </Box>
   );
 }
-
-

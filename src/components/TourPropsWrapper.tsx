@@ -13,10 +13,7 @@ interface TourPropsWrapperProps {
   children: (tourState: TourState) => ReactNode;
 }
 
-export default function TourPropsWrapper({
-  tourState,
-  children,
-}: TourPropsWrapperProps) {
+export default function TourPropsWrapper({ tourState, children }: TourPropsWrapperProps) {
   const transformedState = {
     currentTourStep: tourState.currentTourStep,
     setCurrentTourStep: tourState.setCurrentTourStep,

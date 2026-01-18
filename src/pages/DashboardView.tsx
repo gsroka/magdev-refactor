@@ -6,10 +6,7 @@ interface DashboardViewProps {
   onEndTour: () => void;
 }
 
-export default function DashboardView({
-  onStartTour,
-  onEndTour,
-}: DashboardViewProps) {
+export default function DashboardView({ onStartTour, onEndTour }: DashboardViewProps) {
   return (
     <Box>
       <Typography variant="h4" sx={{ mb: 3 }}>
@@ -19,12 +16,7 @@ export default function DashboardView({
         Here's what's happening with your organization today.
       </Typography>
 
-      <DashboardSection
-        onStartTour={onStartTour}
-        onEndTour={onEndTour}
-      />
+      <DashboardSection onStartTour={onStartTour} onEndTour={onEndTour} />
     </Box>
   );
 }
-
-

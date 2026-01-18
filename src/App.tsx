@@ -15,18 +15,10 @@ function App() {
   };
 
   return (
-    <AppShell
-      onStartTour={handleStartTour}
-      onEndTour={handleEndTour}
-    >
-      <DashboardPage
-        onStartTour={handleStartTour}
-        onEndTour={handleEndTour}
-      />
+    <AppShell onStartTour={handleStartTour} onEndTour={handleEndTour}>
+      <DashboardPage onStartTour={handleStartTour} onEndTour={handleEndTour} />
     </AppShell>
   );
 }
 
 export default App;
-
-
