@@ -19,7 +19,7 @@
 
 </details>
 
-<details>
+<details open>
 <summary><strong>View Implementation Roadmap</strong></summary>
 
 ### ✅ Phase 1: Environment & Tooling
@@ -27,7 +27,17 @@
 - [x] Initial bug discovery and technical debt assessment.
 - [x] Dependency minor upgrades.
 - [x] Setup ESLint, Prettier.
-- [ ] Run ESLint 
-- [ ] Run Prettier.
+- [x] Configure `vite.config.ts` alias and plugins.
+- [ ] Run ESLint (Fix errors).
+- [ ] Run Prettier (Format code).
+- [ ] Type errors.
+- [ ] Build errors.
+
+### 🚧 Phase X: Core Refactoring
+- [ ] Remove global DOM selectors (Tour engine).
+- [ ] Fix Redux `initialHook` error.
+- [ ] Refactor "Tour" steps logic.
+- [ ] Fix broken UI actions (Bell, Avatar, User buttons).
+- [ ] Implement active states for Navigation.
 
 </details>
