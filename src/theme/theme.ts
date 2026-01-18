@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material/styles';
+import { type Components, createTheme, type PaletteOptions } from '@mui/material/styles';
 
-const customPalette: any = {
+const customPalette: PaletteOptions = {
   primary: {
     main: '#1976d2',
     light: '#42a5f5',
@@ -19,7 +19,7 @@ const customPalette: any = {
   },
 };
 
-const componentOverrides: any = {
+const componentOverrides: Components = {
   MuiDrawer: {
     styleOverrides: {
       paper: {

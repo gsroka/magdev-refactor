@@ -40,6 +40,14 @@ TODO
 * **Fix:** Defined a strict `TourStep` interface to replace `any` and updated the `useCallback` dependency array to include all referenced variables.
 * **Trade-offs:** We must strictly adhere to the `TourStep` shape; adding arbitrary properties to tour steps is no longer possible without updating the interface.
 
+---
+
+* ### **Strict Typing for Material UI Theme Configuration**
+* **Issue:** The `src/theme/theme.ts` file utilized `any` types for theme configuration objects, triggering ESLint violations.
+* **Why:** Using `any` in the central theme configuration breaks TypeScript's ability to validate the design system. It allows developers to define invalid palette colors or misspelled component overrides without any build-time warnings, leading to potential runtime UI inconsistencies.
+* **Fix:** Replaced `any` with specific Material UI types: `PaletteOptions` for color definitions and `Components` for component style overrides, imported directly from `@mui/material/styles`.
+* **Trade-offs:** Requires precise knowledge of the Material UI type hierarchy (`Options` types vs. runtime types), but guarantees IntelliSense support across the application.
+
 ## ⚛️ React Patterns & State Management
 
 - **XXX**
