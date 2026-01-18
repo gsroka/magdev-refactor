@@ -58,15 +58,21 @@ TODO
 ### **Context Architecture Restructuring for Fast Refresh Support**
 
 - **Issue:** The `AppSettingsContext.tsx` file triggered a `react-refresh/only-export-components` warning because it mixed component exports (Provider) with non-component exports (Hooks, Types).
-- **Why:** Modern React tooling (Vite/Fast Refresh) cannot reliably preserve component state during Hot Module Replacement (HMR) if a file contains mixed exports. This forces full page reloads during development, significantly degrading the Developer Experience (DX).
+- **Why:** Modern React tooling (Vite/Fast Refresh) cannot reliably preserve the component state during Hot Module Replacement (HMR) if a file contains mixed exports. This forces full page reloads during development, significantly degrading the Developer Experience (DX).
 - **Fix:** Decomposed the monolithic file into dedicated modules: types, the custom hook, and the context definition, adhering to the Single Responsibility Principle.
 - **Trade-offs:** Increases the total file count in the project structure but guarantees instant state preservation during code edits.
 
 ### **Integration of Global Error Boundary**
-- **Issue:** The `ErrorBoundary` component existed in the codebase but was not utilized, leaving the application vulnerable to complete crashes.
+- **Issue:** The `ErrorBoundary` component existed in the codebase but was not used, leaving the application vulnerable to complete crashes.
 - **Why:** Without a boundary, a single JavaScript error in any UI component triggers the "White Screen of Death," rendering the entire application unusable.
 - **Fix:** Wrapped the core application logic with the `ErrorBoundary` component immediately inside `React.StrictMode` in the entry file.
 - **Trade-offs:** Errors are now caught and logged, but the UI within the boundary is replaced by a fallback view, requiring user interaction (e.g., page refresh) to recover.
+
+### **Simplification of Dashboard Hierarchy (Removal of Ghost Wrapper)**
+- **Issue:** `DashboardPage` acted as a redundant wrapper for `DashboardView`, adding unnecessary depth to the component tree without providing additional logic or layout.
+- **Why:** Superfluous nesting increases React's Virtual DOM complexity ("Component Hell") and makes code navigation difficult for other developers.
+- **Fix:** Merged the logic and presentation from `DashboardView` directly into `DashboardPage` and deleted the redundant `DashboardView` component.
+- **Trade-offs:** None. This is a purely refactored for maintainability.
 
 ## ⚛️ React Patterns & State Management
 
