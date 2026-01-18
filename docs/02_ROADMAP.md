@@ -36,10 +36,22 @@
 
 ### 🚧 Phase 2: Core Refactoring
 
+**Critical Fixes & Cleanup:**
 - [x] Fix Redux `initialHook` error.
-- [ ] Remove global DOM selectors (Tour engine).
-- [ ] Refactor "Tour" steps logic.
+- [x] Implement `ErrorBoundary` (currently unused).
+- [ ] Remove redundant `DashboardPage` wrapper (simplify to `DashboardView`).
+
+**Tour Engine Modernization:**
+- [ ] Refactor "ProductTour" steps logic.
+- [ ] Fix memory leak in `ProductTour` resize listener (missing cleanup).
+- [ ] Replace global `document.querySelector`.
+- [ ] Replace `setInterval` polling with `ResizeObserver`.
+
+**UI:**
 - [ ] Fix broken UI actions (Bell, Avatar, User buttons).
 - [ ] Implement active states for Navigation.
+
+**Polishing:**
+- [ ] Verify unused files, functions, and variables (Dead Code Elimination).
 
 </details>

@@ -7,16 +7,19 @@ import App from './App';
 import theme from './theme/theme';
 import { store } from './store/store';
 import { AppSettingsProvider } from './context';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}>
-      <AppSettingsProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
-      </AppSettingsProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <AppSettingsProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
+        </AppSettingsProvider>
+      </Provider>
+    </ErrorBoundary>
   </StrictMode>
 );

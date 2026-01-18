@@ -62,6 +62,12 @@ TODO
 - **Fix:** Decomposed the monolithic file into dedicated modules: types, the custom hook, and the context definition, adhering to the Single Responsibility Principle.
 - **Trade-offs:** Increases the total file count in the project structure but guarantees instant state preservation during code edits.
 
+### **Integration of Global Error Boundary**
+- **Issue:** The `ErrorBoundary` component existed in the codebase but was not utilized, leaving the application vulnerable to complete crashes.
+- **Why:** Without a boundary, a single JavaScript error in any UI component triggers the "White Screen of Death," rendering the entire application unusable.
+- **Fix:** Wrapped the core application logic with the `ErrorBoundary` component immediately inside `React.StrictMode` in the entry file.
+- **Trade-offs:** Errors are now caught and logged, but the UI within the boundary is replaced by a fallback view, requiring user interaction (e.g., page refresh) to recover.
+
 ## ⚛️ React Patterns & State Management
 
 ### **Removal of "Derived State" Anti-Pattern in Custom Hooks**
