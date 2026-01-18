@@ -8,7 +8,6 @@ const defaultSettings: AppSettings = {
   notificationsEnabled: true,
 };
 
-
 interface AppSettingsProviderProps {
   children: ReactNode;
 }

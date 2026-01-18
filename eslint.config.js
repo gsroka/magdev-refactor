@@ -41,8 +41,8 @@ export default ts.config(
       react: { version: 'detect' },
       'import-x/resolver': {
         typescript: true,
-        node: true
-      }
+        node: true,
+      },
     },
   },
   prettier

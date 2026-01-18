@@ -22,11 +22,13 @@
 
 **Console/Technical:**
 
-- Redux error: `initialHook` failing.
 - `tourSlice` has an unused `nextStep` action.
+- ~~Redux error: `initialHook` failing.~~
 
 **Modernization:**
 
+- Separate logic from views
+- Reduce complexity
 - ~~configs update.~~
 - ~~add tests deps.~~
 

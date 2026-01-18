@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector } from '@/store/hooks';
 
 export function useTourStep() {
-  const step = useAppSelector((state) => state.tour.currentStep);
-  const [localStep] = useState(step);
+  const currentStep = useAppSelector((state) => state.tour.currentStep);
+  const isActive = useAppSelector((state) => state.tour.isActive);
 
-  return localStep;
+  return { currentStep, isActive };
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAppSelector, useAppDispatch } from '@/store/hooks.ts';
-import { setCurrentStep, prevStep } from '@/store/tourSlice.ts';
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { setCurrentStep, prevStep, endTour } from '@/store/tourSlice';
 
 interface TourStep {
   selector: string;
@@ -50,14 +50,13 @@ const tourSteps: TourStep[] = [
   },
 ];
 
-interface ProductTourProps {
-  onEndTour: () => void;
-}
-
-export default function ProductTour({ onEndTour }: ProductTourProps) {
+export default function ProductTour() {
   const dispatch = useAppDispatch();
   const currentTourStep = useAppSelector((state) => state.tour.currentStep);
   const isTourActive = useAppSelector((state) => state.tour.isActive);
+  const handleEndTour = () => {
+    dispatch(endTour());
+  };
 
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
@@ -80,7 +79,7 @@ export default function ProductTour({ onEndTour }: ProductTourProps) {
   };
 
   const handleSkip = () => {
-    onEndTour();
+    handleEndTour();
   };
 
   useEffect(() => {
@@ -148,7 +147,7 @@ export default function ProductTour({ onEndTour }: ProductTourProps) {
 
   const step = tourSteps[currentTourStep];
   if (!step) {
-    onEndTour();
+    handleEndTour();
     return null;
   }
 

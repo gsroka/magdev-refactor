@@ -1,25 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { useAppSelector } from '../store/hooks';
 import UserTable from '../components/UserTable';
 import ProductTour from '../components/ProductTour/ProductTour';
-import { type User, initialUsers } from '../mock/users';
-import { fetchFeaturedUser } from '../mock/api';
+import { type User, initialUsers } from '@/mock/users';
+import { fetchFeaturedUser } from '@/mock/api';
+import { useTourStep } from '@/hooks/useTourStep';
 
-interface UserSectionProps {
-  onStartTour: () => void;
-  onEndTour: () => void;
-}
-
-export default function UserSection({ onEndTour }: UserSectionProps) {
+export default function UserSection() {
   const [users] = useState<User[]>(initialUsers);
   const [featuredUser, setFeaturedUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const tourState = useAppSelector((state) => ({
-    currentStep: state.tour.currentStep,
-    isActive: state.tour.isActive,
-  }));
+  const { currentStep, isActive } = useTourStep();
 
   useEffect(() => {
     setLoading(true);
@@ -36,16 +27,16 @@ export default function UserSection({ onEndTour }: UserSectionProps) {
 
   return (
     <Box>
+      {/*TODO: Verify UserTable component*/}
       <UserTable
         users={users}
         featuredUser={featuredUser}
         loading={loading}
-        currentTourStep={tourState.currentStep}
+        currentTourStep={currentStep}
         setCurrentTourStep={() => {}}
-        isTourActive={tourState.isActive}
+        isTourActive={isActive}
       />
-
-      <ProductTour onEndTour={onEndTour} />
+      <ProductTour />
     </Box>
   );
 }

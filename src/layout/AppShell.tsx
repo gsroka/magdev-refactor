@@ -21,13 +21,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAppSettings } from '@/context';
+import { useAppDispatch } from '@/store/hooks';
+import { startTour } from '@/store/tourSlice';
 
 const DRAWER_WIDTH = 240;
 
 interface AppShellProps {
   children: React.ReactNode;
-  onStartTour: () => void;
-  onEndTour: () => void;
 }
 
 const navItems = [
@@ -36,7 +36,9 @@ const navItems = [
   { text: 'Settings', icon: <SettingsIcon /> },
 ];
 
-export default function AppShell({ children, onStartTour }: AppShellProps) {
+export default function AppShell({ children }: AppShellProps) {
+  const dispatch = useAppDispatch();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const appSettings = useAppSettings();
 
@@ -104,7 +106,7 @@ export default function AppShell({ children, onStartTour }: AppShellProps) {
           <Button
             variant="outlined"
             startIcon={<HelpOutlineIcon />}
-            onClick={onStartTour}
+            onClick={() => dispatch(startTour())}
             sx={{ mr: 2 }}
             className="tour-trigger-button"
           >

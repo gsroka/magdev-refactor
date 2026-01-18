@@ -34,10 +34,10 @@
 - [x] Run Prettier (Format code).
 - [x] Run ESLint (Fix errors).
 
-### 🚧 Phase X: Core Refactoring
+### 🚧 Phase 2: Core Refactoring
 
+- [x] Fix Redux `initialHook` error.
 - [ ] Remove global DOM selectors (Tour engine).
-- [ ] Fix Redux `initialHook` error.
 - [ ] Refactor "Tour" steps logic.
 - [ ] Fix broken UI actions (Bell, Avatar, User buttons).
 - [ ] Implement active states for Navigation.

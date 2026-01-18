@@ -1,23 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { useAppSelector } from '../store/hooks';
 import StatCards from '../components/StatCards';
 import UserSection from './UserSection';
-import { type DashboardStats, fetchDashboardStats } from '../mock/api';
+import { type DashboardStats, fetchDashboardStats } from '@/mock/api';
+import { useTourStep } from '@/hooks/useTourStep';
 
-interface DashboardSectionProps {
-  onStartTour: () => void;
-  onEndTour: () => void;
-}
-
-export default function DashboardSection({ onStartTour, onEndTour }: DashboardSectionProps) {
+export default function DashboardSection() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const tourState = useAppSelector((state) => ({
-    currentStep: state.tour.currentStep,
-    isActive: state.tour.isActive,
-  }));
+  const { currentStep, isActive } = useTourStep();
 
   useEffect(() => {
     fetchDashboardStats()
@@ -29,19 +21,19 @@ export default function DashboardSection({ onStartTour, onEndTour }: DashboardSe
         console.error('Failed to fetch stats:', error);
         setLoading(false);
       });
-  }, [tourState.isActive]);
+  }, [isActive]);
 
   return (
     <Box>
       <StatCards
         stats={stats}
         loading={loading}
-        currentTourStep={tourState.currentStep}
+        currentTourStep={currentStep}
         setCurrentTourStep={() => {}}
-        isTourActive={tourState.isActive}
+        isTourActive={isActive}
       />
 
-      <UserSection onStartTour={onStartTour} onEndTour={onEndTour} />
+      <UserSection />
     </Box>
   );
 }
