@@ -3,7 +3,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { DashboardStats } from '../mock/api';
+import type { DashboardStats } from '../mock/api';
 import { useTourStep } from '../hooks/useTourStep';
 
 interface StatCardsProps {
@@ -29,7 +29,7 @@ export default function StatCards({
   const localTourStep = useTourStep();
   // localTourStep is used but always returns stale value due to hook bug
   // This demonstrates the custom hook state sync issue - value never updates from Redux
-  
+
   const cards: StatCardData[] = stats
     ? [
         {

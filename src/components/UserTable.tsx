@@ -13,7 +13,7 @@ import {
   Skeleton,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { User } from '../mock/users';
+import type { User } from '../mock/users';
 
 interface UserTableProps {
   users: User[];

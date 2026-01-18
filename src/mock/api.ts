@@ -1,4 +1,4 @@
-import { User, initialUsers, delayedUser } from './users';
+import { type User, initialUsers, delayedUser } from './users';
 
 export const fetchUsers = (): Promise<User[]> => {
   return new Promise((resolve) => {

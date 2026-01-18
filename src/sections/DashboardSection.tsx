@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { useAppSelector } from '../store/hooks';
 import StatCards from '../components/StatCards';
 import UserSection from './UserSection';
-import { DashboardStats, fetchDashboardStats } from '../mock/api';
+import { type DashboardStats, fetchDashboardStats } from '../mock/api';
 
 interface DashboardSectionProps {
   onStartTour: () => void;

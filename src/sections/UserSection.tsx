@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { useAppSelector } from '../store/hooks';
 import UserTable from '../components/UserTable';
 import ProductTour from '../components/ProductTour/ProductTour';
-import { User, initialUsers } from '../mock/users';
+import { type User, initialUsers } from '../mock/users';
 import { fetchFeaturedUser } from '../mock/api';
 
 interface UserSectionProps {

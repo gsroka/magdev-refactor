@@ -28,9 +28,9 @@
 - [x] Dependency minor upgrades.
 - [x] Setup ESLint, Prettier.
 - [x] Configure `vite.config.ts` alias and plugins.
+- [x] Type errors.
 - [ ] Run ESLint (Fix errors).
 - [ ] Run Prettier (Format code).
-- [ ] Type errors.
 - [ ] Build errors.
 
 ### 🚧 Phase X: Core Refactoring
