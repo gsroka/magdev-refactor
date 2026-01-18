@@ -7,8 +7,8 @@
 **Bugs:**
 
 - ~~Tour: Step 2 is not working.~~
-- ~~Build errors 10~~
-- ~~ESLint >50~~
+- ~~Build errors 10.~~
+- ~~ESLint >50.~~
 
 **UI/UX:**
 
@@ -24,26 +24,27 @@
 
 **Architecture:**
 
-- ProductTour document.querySelector
-- ProductTour addEventListener
+- ProductTour document.querySelector.
+- ProductTour addEventListener.
 
 **Modernization:**
 
-- TODO list
-- Separate logic from views
-- Reduce complexity
-- Feature-Sliced Design
+- TODO list.
+- Separate logic from views.
+- Reduce complexity.
+- Feature-Sliced Design.
 - ~~configs update.~~
 - ~~add tests deps.~~
 
 **Further modernization:**
 
-- setupTests.ts
-- knip install
-- React 19+
-- Testing framework setup (Vitest/Jest/Cypress/Playwright)
-- Data mocking (MSW)
-- routing
+- setupTests.ts.
+- knip install.
+- React 19+.
+- Testing framework setup (Vitest/Jest/Cypress/Playwright).
+- Data mocking (MSW).
+- routing.
+- better way for handling ProductTour tooltip (ResizeObserver/Floating UI).
 
 **Information:**
 

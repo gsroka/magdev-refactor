@@ -85,9 +85,9 @@ TODO
 
 ## ⚡ Performance
 
-- ### **Fixing Unmemoized Redux Selectors (Reference Equality Issue)**
+### **Fixing Unmemoized Redux Selectors (Reference Equality Issue)**
 
-* **Issue:** The console reported "Selector unknown returned a different result when called with the same parameters". This occurred in `DashboardSection` and `UserSection`.
+* **Issue:** The console reported, "Selector unknown returned a different result when called with the same parameters." This occurred in `DashboardSection` and `UserSection`.
 * **Why:** Redux relies on strict equality checks (`===`). If a selector returns a new object or array literal (e.g., `state => ({ data: state.data })`) on every execution, Redux considers the state "changed" even if the values are identical. This triggers infinite re-render loops or unnecessary updates.
 * **Fix:**
   1. Select only primitive values (strings, numbers) where possible.
@@ -95,13 +95,12 @@ TODO
   3. Alternatively, use `shallowEqual` as the second argument to `useSelector` (though strict selectors are preferred).
 * **Trade-offs:** Writing memoized selectors requires slightly more boilerplate code but ensures referential integrity and prevents performance regressions.
 
-## 🛡️ Type Safety (TypeScript)
+### **Fixing Memory Leaks in ProductTour Event Listeners**
 
-- **XXX**
-- **Issue:** XXX.
-- **Why:** XXX.
-- **Fix** XXX.
-- **Trade-offs** XXX.
+- **Issue:** The `ProductTour` component attached `resize` event listeners and initialized `setInterval` timers but failed to clean them up completely when unmounting or re-rendering.
+- **Why:** Failing to remove global event listeners causes "stale handlers" to accumulate in memory. This degrades browser performance over time and can trigger errors when the listener tries to update state on an unmounted component.
+- **Fix:** Implemented a comprehensive cleanup function in `useEffect` that clears the interval and removes both `resize` and `scroll` event listeners.
+- **Trade-offs:** None. Proper cleanup is mandatory for side effects in React.
 
 ## 🚨 Error Handling
 

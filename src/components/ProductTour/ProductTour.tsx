@@ -50,6 +50,7 @@ const tourSteps: TourStep[] = [
   },
 ];
 
+// TODO: complexity
 export default function ProductTour() {
   const dispatch = useAppDispatch();
   const currentTourStep = useAppSelector((state) => state.tour.currentStep);
@@ -89,6 +90,7 @@ export default function ProductTour() {
       const step = tourSteps[currentTourStep];
       if (!step) return;
 
+      // TODO:
       const targetElement = document.querySelector(step.selector);
 
       if (targetElement) {
@@ -140,6 +142,8 @@ export default function ProductTour() {
 
     return () => {
       clearInterval(intervalId);
+      window.removeEventListener('resize', updateTooltipPosition);
+      window.removeEventListener('scroll', updateTooltipPosition, true);
     };
   }, [currentTourStep, isTourActive]);
 
