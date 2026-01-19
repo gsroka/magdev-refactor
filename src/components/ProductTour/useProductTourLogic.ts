@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { calculateTooltipPosition } from '@/helpers/positionTooltip';
+import { setupTourObservers } from '@/helpers/setupObservers';
 
 interface TourStep {
   selector: string;
@@ -63,7 +65,6 @@ const TOOLTIP_WIDTH = 320;
 const TOOLTIP_HEIGHT = 180;
 const TOOLTIP_OFFSET = 12;
 const OBSERVER_THROTTLE_MS = 100;
-const OBSERVER_THRESHOLD = [0, 0.5, 1];
 const OBSERVER_ELEMENT = 'root';
 
 export function useProductTourLogic({
@@ -82,8 +83,7 @@ export function useProductTourLogic({
     if (!isActive || currentStep < 0 || currentStep >= tourSteps.length) {
       return null;
     }
-    const step = tourSteps.at(currentStep) ?? null;
-    return step;
+    return tourSteps.at(currentStep) ?? null;
   }, [currentStep, isActive]);
 
   const isLastStep = currentStep === tourSteps.length - 1;
@@ -118,39 +118,15 @@ export function useProductTourLogic({
         return rect;
       });
 
-      const tooltipWidth = TOOLTIP_WIDTH;
-      const tooltipHeight = TOOLTIP_HEIGHT;
-      const offset = TOOLTIP_OFFSET;
+      const position = calculateTooltipPosition(
+        rect,
+        currentStepData.position,
+        TOOLTIP_WIDTH,
+        TOOLTIP_HEIGHT,
+        TOOLTIP_OFFSET
+      );
 
-      let top;
-      let left;
-
-      switch (currentStepData.position) {
-        case 'bottom':
-          top = rect.bottom + offset;
-          left = rect.left + rect.width / 2 - tooltipWidth / 2;
-          break;
-        case 'top':
-          top = rect.top - tooltipHeight - offset;
-          left = rect.left + rect.width / 2 - tooltipWidth / 2;
-          break;
-        case 'left':
-          top = rect.top + rect.height / 2 - tooltipHeight / 2;
-          left = rect.left - tooltipWidth - offset;
-          break;
-        case 'right':
-          top = rect.top + rect.height / 2 - tooltipHeight / 2;
-          left = rect.right + offset;
-          break;
-        default:
-          top = rect.bottom + offset;
-          left = rect.left;
-      }
-
-      top = Math.max(10, Math.min(top, window.innerHeight - tooltipHeight - 10));
-      left = Math.max(10, Math.min(left, window.innerWidth - tooltipWidth - 10));
-
-      setTooltipPosition({ top, left });
+      setTooltipPosition(position);
       setIsVisible(true);
     });
   }, [currentStepData, isActive]);
@@ -167,44 +143,24 @@ export function useProductTourLogic({
     window.addEventListener('resize', throttledUpdate, { signal });
     window.addEventListener('scroll', throttledUpdate, { signal, capture: true });
 
-    let resizeObserver: ResizeObserver | null = null;
-    let intersectionObserver: IntersectionObserver | null = null;
+    const rootContainer = document.getElementById(OBSERVER_ELEMENT) ?? document.body;
+    const targetElement = document.querySelector(currentStepData.selector);
 
-    const setupObservers = (el: Element) => {
-      resizeObserver?.disconnect();
-      intersectionObserver?.disconnect();
-
-      resizeObserver = new ResizeObserver(throttledUpdate);
-      resizeObserver.observe(el);
-
-      const rootEl = document.getElementById(OBSERVER_ELEMENT);
-      if (rootEl) resizeObserver.observe(rootEl);
-
-      intersectionObserver = new IntersectionObserver(throttledUpdate, {
-        threshold: OBSERVER_THRESHOLD,
-      });
-      intersectionObserver.observe(el);
-    };
-
-    const rootContainer = document.getElementById('root') ?? document.body;
+    let observers: ReturnType<typeof setupTourObservers> | null = null;
+    if (targetElement) {
+      observers = setupTourObservers(targetElement, throttledUpdate, rootContainer);
+    }
     const mutationObserver = new MutationObserver(() => {
-      if (!currentStepData) return;
-
-      const targetElement = document.querySelector(currentStepData.selector);
-      if (targetElement) {
-        setupObservers(targetElement);
+      const el = document.querySelector(currentStepData.selector);
+      if (el && !observers) {
+        observers = setupTourObservers(el, throttledUpdate, rootContainer);
         throttledUpdate();
-      } else if (isVisible) {
+      } else if (!el && isVisible) {
         setIsVisible(false);
       }
     });
 
     mutationObserver.observe(rootContainer, { childList: true, subtree: true });
-
-    const initialTarget = document.querySelector(currentStepData.selector);
-    if (initialTarget) {
-      setupObservers(initialTarget);
-    }
 
     throttledUpdate();
 
@@ -215,8 +171,8 @@ export function useProductTourLogic({
     return () => {
       controller.abort();
       mutationObserver.disconnect();
-      resizeObserver?.disconnect();
-      intersectionObserver?.disconnect();
+      observers?.resizeObserver.disconnect();
+      observers?.intersectionObserver.disconnect();
       if (rAFRef.current) cancelAnimationFrame(rAFRef.current);
       clearTimeout(focusTimer);
     };

@@ -31,7 +31,7 @@
   - ~~setInterval~~.
   - ~~performance~~.
   - ~~complexity~~.
-  - further tooltip improvements.
+  - ~~further tooltip improvements.~~
   - tests.
 - type folder for interface TourState.
 - ~~TourPropsWrapper.~~
