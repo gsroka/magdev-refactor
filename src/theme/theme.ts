@@ -1,4 +1,25 @@
-import { type Components, createTheme, type PaletteOptions } from '@mui/material/styles';
+import {
+  type Components,
+  createTheme,
+  type PaletteOptions,
+  type Theme,
+} from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    custom: {
+      drawerBackground: string;
+      drawerText: string;
+    };
+  }
+
+  interface PaletteOptions {
+    custom?: {
+      drawerBackground: string;
+      drawerText: string;
+    };
+  }
+}
 
 const customPalette: PaletteOptions = {
   primary: {
@@ -17,15 +38,19 @@ const customPalette: PaletteOptions = {
     default: '#f5f5f5',
     paper: '#ffffff',
   },
+  custom: {
+    drawerBackground: '#1e293b',
+    drawerText: '#e2e8f0',
+  },
 };
 
-const componentOverrides: Components = {
+const componentOverrides: Components<Omit<Theme, 'components'>> = {
   MuiDrawer: {
     styleOverrides: {
-      paper: {
-        backgroundColor: '#1e293b',
-        color: '#e2e8f0',
-      },
+      paper: ({ theme }) => ({
+        backgroundColor: theme.palette.custom.drawerBackground,
+        color: theme.palette.custom.drawerText,
+      }),
     },
   },
   MuiAppBar: {

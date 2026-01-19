@@ -49,7 +49,10 @@
 
 ### 🎨 Phase 3: UI/UX & Architecture Polish
 
-**Code Quality & Logic:** 
+**@mui:**
+- [x] RWD fix.
+
+  **Code Quality & Logic:** 
 - [~] Dead Code Elimination: Verify and remove unused files, functions, and variables.
 - [~] Logic Separation: Extract business logic into custom hooks (e.g., `useTour`, `useUserActions`).
 - [~] Performance Audit: Optimize re-renders (verify `useCallback`, `useMemo` usage).

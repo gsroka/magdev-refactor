@@ -49,7 +49,14 @@ export default function AppShell({ children }: AppShellProps) {
   const drawerContent = (
     <Box sx={{ overflow: 'auto', mt: 2 }}>
       <Box sx={{ px: 2, mb: 3 }}>
-        <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, letterSpacing: '-0.5px' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            color: (theme) => theme.palette.primary.contrastText,
+            fontWeight: 700,
+            letterSpacing: '-0.5px',
+          }}
+        >
           OmniGuide
         </Typography>
         <Typography variant="caption" sx={{ color: '#94a3b8' }}>
@@ -78,15 +85,15 @@ export default function AppShell({ children }: AppShellProps) {
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
       {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
           width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { md: `${DRAWER_WIDTH}px` },
-          backgroundColor: '#fff',
-          color: '#1e293b',
+          backgroundColor: (theme) => theme.palette.background.paper,
+          color: (theme) => theme.palette.custom.drawerBackground,
         }}
       >
         <Toolbar>
@@ -161,11 +168,11 @@ export default function AppShell({ children }: AppShellProps) {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
+          width: { xs: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { md: `${DRAWER_WIDTH}px` },
           mt: '64px',
           backgroundColor: '#f5f5f5',
-          minHeight: 'calc(100vh - 64px)',
+          minHeight: 'calc(100dvh - 64px)',
         }}
       >
         {children}
