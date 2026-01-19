@@ -89,6 +89,7 @@
     - [ ] Add Skeletons for loading states.
     - [ ] Replace `console.log` feedback with UI Toasts/Snackbars.
     - [ ] Mobile view fixes (overflows).
+    - [ ] ProductTour – Scroll to the element if it's not visible.
 
 ### 🧪 Priority 5: Testing & Performance
 *Validation and Optimization.*
