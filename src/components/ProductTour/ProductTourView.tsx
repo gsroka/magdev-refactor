@@ -40,6 +40,7 @@ export const ProductTourView = ({
           bottom: 0,
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           zIndex: 1300,
+          // TODO: prevent clicking through overlay?
           pointerEvents: 'none',
         }}
       />
@@ -56,7 +57,7 @@ export const ProductTourView = ({
             border: '3px solid #1976d2',
             borderRadius: '8px',
             zIndex: 1301,
-            pointerEvents: 'none',
+            pointerEvents: 'auto',
             boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.5)',
             transition: 'all 0.3s ease-in-out',
           }}
