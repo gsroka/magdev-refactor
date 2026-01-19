@@ -89,7 +89,7 @@ const componentOverrides: Components<Omit<Theme, 'components'>> = {
 const theme = createTheme({
   palette: customPalette,
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "Arial", sans-serif',
     h4: {
       fontWeight: 600,
     },
