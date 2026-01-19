@@ -13,7 +13,7 @@
 **UI/UX:**
 
 - Cards have `cursor: pointer` but no hover state or action.
-- Mobile view fix.
+- ~~Mobile view fix.~~
 - spinner/skeleton loading.
 - HTML/MUI verification. 
 

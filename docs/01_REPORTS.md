@@ -2,13 +2,18 @@
 
 ## 📊 Summary of Findings
 
-TODO
+I refactored the legacy React codebase to align with **2026 Industry Standards**, focusing on performance, type safety, and maintainability. Key achievements include:
+
+1.  **Performance & Resource Optimization:** Eliminated main-thread blocking polling (`setInterval`) in favor of an **Event-Driven Architecture** using `ResizeObserver` and `MutationObserver`, resulting in near-zero idle CPU usage.
+2.  **Architectural Modernization:** Decoupled monolithic components into a **Headless UI pattern** (Logic Hooks + Pure View Components), which improved testability and separation of concerns.
+3.  **Strict Type Safety:** Enforced a zero-tolerance policy for `any` types and fixed critical Redux type inference issues, ensuring a robust developer experience and preventing runtime crashes.
 
 ---
 
 ## 🛡️ Type Safety & Code Quality
 
-<details>
+<details open>
+<summary>View Details</summary>
 
 ### **Modernization of Build Tooling & Static Analysis Configuration**
 
@@ -35,8 +40,8 @@ TODO
 
 - **Issue:** The `ProductTour` component used the explicit `any` type for step definitions and violated the `react-hooks/exhaustive-deps` rule in `useCallback`.
 - **Why:**
-  1.  **`any`:** Disables TypeScript's protection, making it impossible to catch missing properties (e.g., a typo in `selector`) at compile time.
-  2.  **Missing Deps:** Ignoring dependencies in `useCallback` creates "stale closures," where the function fails to see the updated values of `currentTourStep` or `dispatch`, leading to potential logic bugs where the tour gets stuck.
+  1. **`any`:** Disables TypeScript's protection, making it impossible to catch missing properties (e.g., a typo in `selector`) at compile time.
+  2. **Missing Deps:** Ignoring dependencies in `useCallback` creates "stale closures," where the function fails to see the updated values of `currentTourStep` or `dispatch`, leading to potential logic bugs where the tour gets stuck.
 - **Fix:** Defined a strict `TourStep` interface to replace `any` and updated the `useCallback` dependency array to include all referenced variables.
 - **Trade-offs:** We must strictly adhere to the `TourStep` shape; adding arbitrary properties to tour steps is no longer possible without updating the interface.
 
@@ -53,13 +58,14 @@ TODO
 
 ## 🏗️ Architecture & Data Flow
 
-<details>
+<details open>
+<summary>View Details</summary>
 
 ### **Decomposition of Monolithic `ProductTour` Component**
 
 - **Issue:** The `ProductTour` component violated the Single Responsibility Principle by coupling Redux state management, complex DOM geometry calculations, and UI rendering within a single file.
 - **Why:** This "God Component" structure made the code difficult to test, impossible to reuse, and hard to read. Any change to the visual layer risked breaking the positioning logic.
-- **Fix:** Refactored the component into the "Container/Presentation" pattern:
+- **Fix:** Refactored the component into the "Container/Presentation" pattern (Headless UI):
   1. `useProductTourLogic`: A headless custom hook managing state, DOM measurements, and event listeners.
   2. `ProductTourView`: A pure functional component responsible solely for rendering the UI based on props.
   3. `ProductTour`: A thin container wiring the hook to the view.
@@ -89,7 +95,7 @@ TODO
 - **Issue:** `DashboardPage` acted as a redundant wrapper for `DashboardView`, adding unnecessary depth to the component tree without providing additional logic or layout.
 - **Why:** Superfluous nesting increases React's Virtual DOM complexity ("Component Hell") and makes code navigation difficult for other developers.
 - **Fix:** Merged the logic and presentation from `DashboardView` directly into `DashboardPage` and deleted the redundant `DashboardView` component.
-- **Trade-offs:** None. This is a purely refactored for maintainability.
+- **Trade-offs:** None. This is a pure refactor for maintainability.
 
 </details>
 
@@ -97,7 +103,8 @@ TODO
 
 ## ⚛️ React Patterns & State Management
 
-<details>
+<details open>
+<summary>View Details</summary>
 
 ### **Removal of "Derived State" Anti-Pattern in Custom Hooks**
 
@@ -112,7 +119,8 @@ TODO
 
 ## ⚡ Performance
 
-<details>
+<details open>
+<summary>View Details</summary>
 
 ### **Migration from Polling to Reactive DOM Observers**
 - **Issue:** The legacy implementation used a `setInterval` (polling every 100ms) and global `window` listeners to track element positions.
@@ -135,11 +143,8 @@ TODO
 
 - **Issue:** The console reported, "Selector unknown returned a different result when called with the same parameters." This occurred in `DashboardSection` and `UserSection`.
 - **Why:** Redux relies on strict equality checks (`===`). If a selector returns a new object or array literal (e.g., `state => ({ data: state.data })`) on every execution, Redux considers the state "changed" even if the values are identical. This triggers infinite re-render loops or unnecessary updates.
-- **Fix:**
-  1. Select only primitive values (strings, numbers) where possible.
-  2. For derived complex data, use `createSelector` (from Reselect/Redux Toolkit) to memoize the result.
-  3. Alternatively, use `shallowEqual` as the second argument to `useSelector` (though strict selectors are preferred).
-- **Trade-offs:** Writing memoized selectors requires slightly more boilerplate code but ensures referential integrity and prevents performance regressions.
+- **Fix:** Refactored selectors to retrieve primitive values (e.g., `const step = state.tour.currentStep`) individually instead of selecting and returning a composite object.
+- **Trade-offs:** Requires multiple `useSelector` calls instead of a single one, but ensures referential integrity and prevents performance regressions.
 
 ###  **Bundle Size Optimization via Code Splitting**
 
