@@ -28,9 +28,9 @@
   - fallow tooltip.
   - document.querySelector.
   - addEventListener.
-  - setInterval.
-  - performance.
-  - complexity.
+  - ~~setInterval~~.
+  - ~~performance~~.
+  - ~~complexity~~.
   - further tooltip improvements.
   - tests.
 - type folder for interface TourState.
@@ -47,7 +47,6 @@
 
 **Further modernization:**
 
-- setInterval
 - StatCards->setCurrentTourStep
 - setupTests.ts.
 - knip install.
@@ -55,7 +54,7 @@
 - Testing framework setup (Vitest/Jest/Cypress/Playwright).
 - Data mocking (MSW).
 - routing.
-- better way for handling ProductTour tooltip (ResizeObserver/Floating UI).
+- ~~better way for handling ProductTour tooltip (ResizeObserver/Floating UI).~~
 
 **Information:**
 

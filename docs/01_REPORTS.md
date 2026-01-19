@@ -17,8 +17,6 @@ TODO
 - **Fix:** Updated core dependencies to stable versions, implemented strict `ESLint` and `Prettier` rulesets for consistency, and refactored `vite.config.ts` to align with current ecosystem standards.
 - **Trade-offs:** Stricter linting rules may require a significant initial investment to fix existing violations across the legacy codebase.
 
----
-
 ### **Enforcement of Explicit Type Imports**
 
 - **Issue:** Runtime `SyntaxError` exceptions occurred because the bundler attempted to import TypeScript interfaces and types as JavaScript values.
@@ -26,16 +24,12 @@ TODO
 - **Fix:** Updated all type-only imports to use the explicit `import type { ... }` or `import { type ... }` syntax.
 - **Trade-offs:** Slightly increased verbosity in import statements, but ensures safe transpilation and prevents runtime crashes in modern build environments.
 
----
-
 ### **Fixing Type Visibility in Redux Inference (TS4023)**
 
 - **Issue:** The build failed with error `TS4023` in `store.ts` and `hooks.ts`. TypeScript could not generate the type definition for the Redux `store` because it relied on `TourState`, which was not exported.
 - **Why:** The `configureStore` function infers the root state type automatically. If a slice (like `tourSlice`) uses a local, non-exported interface (`TourState`), the resulting RootState becomes "unnameable" outside that module. TypeScript requires all types exposed via a public API (the store) to be exported as well.
 - **Fix:** Added the `export` keyword to the `TourState` interface in `src/store/tourSlice.ts`.
 - **Trade-offs:** None. This is a requirement for inferred types in TypeScript.
-
----
 
 ### **Elimination of `any` & Fix of Stale Closures in ProductTour**
 
@@ -45,8 +39,6 @@ TODO
   2.  **Missing Deps:** Ignoring dependencies in `useCallback` creates "stale closures," where the function fails to see the updated values of `currentTourStep` or `dispatch`, leading to potential logic bugs where the tour gets stuck.
 - **Fix:** Defined a strict `TourStep` interface to replace `any` and updated the `useCallback` dependency array to include all referenced variables.
 - **Trade-offs:** We must strictly adhere to the `TourStep` shape; adding arbitrary properties to tour steps is no longer possible without updating the interface.
-
----
 
 ### **Strict Typing for Material UI Theme Configuration**
 
@@ -62,6 +54,16 @@ TODO
 ## 🏗️ Architecture & Data Flow
 
 <details>
+
+### **Decomposition of Monolithic `ProductTour` Component**
+
+- **Issue:** The `ProductTour` component violated the Single Responsibility Principle by coupling Redux state management, complex DOM geometry calculations, and UI rendering within a single file.
+- **Why:** This "God Component" structure made the code difficult to test, impossible to reuse, and hard to read. Any change to the visual layer risked breaking the positioning logic.
+- **Fix:** Refactored the component into the "Container/Presentation" pattern:
+  1. `useProductTourLogic`: A headless custom hook managing state, DOM measurements, and event listeners.
+  2. `ProductTourView`: A pure functional component responsible solely for rendering the UI based on props.
+  3. `ProductTour`: A thin container wiring the hook to the view.
+- **Trade-offs:** Increased file count, requiring navigation between files during development, but significantly improved separation of concerns.
 
 ### **Removal of Obsolete Render Prop Pattern (`TourWrapper`)**
 
@@ -111,6 +113,16 @@ TODO
 ## ⚡ Performance
 
 <details>
+
+### **Migration from Polling to Reactive DOM Observers**
+- **Issue:** The legacy implementation used a `setInterval` (polling every 100ms) and global `window` listeners to track element positions.
+- **Why:** Polling causes constant main-thread activity even when the UI is static, draining battery on mobile devices and causing layout thrashing (forced reflows).
+- **Fix:** Replaced polling with modern browser APIs:
+  * `ResizeObserver`: To detect size changes of the target element.
+  * `IntersectionObserver`: To handle visibility changes.
+  * `MutationObserver`: To detect when target elements are added/removed from the DOM.
+  * Wrapped updates in `requestAnimationFrame` to sync with the browser's refresh rate.
+- **Trade-offs:** Higher code complexity in the setup/teardown phase compared to a simple interval, but results in near-zero idle CPU usage.
 
 ### **Memoization of Custom Redux Hooks (`useTourStep`)**
 

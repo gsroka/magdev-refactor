@@ -43,16 +43,15 @@
 
 **Product Tour Modernization:**
 - [x] Refactor "ProductTour" steps logic, part 1.
-- [ ] Separate logic from view.
-- [ ] Fix memory leak in `ProductTour` resize listener (missing cleanup).
-- [ ] Replace global `document.querySelector`.
-- [ ] Replace `setInterval` polling with `ResizeObserver`.
+- [x] Separate logic from view.
+- [x] Fix memory leak in `ProductTour` resize listener (missing cleanup).
+- [x] Replace `setInterval` polling with `ResizeObserver`.
 
-**UI:**
-- [ ] Fix broken UI actions (Bell, Avatar, User buttons).
-- [ ] Implement active states for Navigation.
+### 👷🏻 Phase X: Polishing
 
-**Polishing:**
 - [ ] Verify unused files, functions, and variables (Dead Code Elimination).
+- [ ] ProductTour: Replace global `document.querySelector`.
+- [ ] UI: Fix broken UI actions (Bell, Avatar, User buttons).
+- [ ] UI: Implement active states for Navigation.
 
 </details>
