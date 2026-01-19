@@ -29,8 +29,8 @@
 - [x] Dependency minor upgrades.
 - [x] Setup ESLint, Prettier.
 - [x] Configure `vite.config.ts` alias and plugins.
-- [x] Type errors.
-- [x] Build errors.
+- [x] Fix Type errors.
+- [x] Fix Build errors.
 - [x] Run Prettier (Format code).
 - [x] Run ESLint (Fix errors).
 
@@ -47,11 +47,31 @@
 - [x] Fix memory leak in `ProductTour` resize listener (missing cleanup).
 - [x] Replace `setInterval` polling with `ResizeObserver`.
 
-### 👷🏻 Phase X: Polishing
+### 🎨 Phase 3: UI/UX & Architecture Polish
 
-- [ ] Verify unused files, functions, and variables (Dead Code Elimination).
-- [ ] ProductTour: Replace global `document.querySelector`.
-- [ ] UI: Fix broken UI actions (Bell, Avatar, User buttons).
-- [ ] UI: Implement active states for Navigation.
+**Code Quality & Logic:** 
+- [~] Dead Code Elimination: Verify and remove unused files, functions, and variables.
+- [~] Logic Separation: Extract business logic into custom hooks (e.g., `useTour`, `useUserActions`).
+- [~] Performance Audit: Optimize re-renders (verify `useCallback`, `useMemo` usage).
+
+### 🧪 Phase 4: Quality Assurance & Testing
+
+- [ ] Unit Tests: Setup Vitest/Jest and write tests for utilities/hooks.
+- [ ] E2E Tests: Setup Cypress/Playwright for critical user flows.
+- [ ] DevTools Check: Verify React DevTools & Redux DevTools integration (no unnecessary updates).
+- [ ] Cross-Device: Perform mobile emulation and Chrome DevTools audits.
+
+### 🚀 Phase 5: Production Readiness
+
+- [ ] Clean up: Remove all development `console.log` statements.
+- [ ] Build: Final bundle optimization and dependency check.
+- [ ] Docs: Final documentation update and handover notes.
+
+### Phase X: Interface Improvements
+
+- [ ] UI Fixes: Repair broken actions (Notification Bell, Avatar menu, User CRUD buttons).
+- [ ] Navigation: Implement active/hover states for Sidebar links.
+- [ ] Responsiveness: Fix layout overflows and check Mobile view.
+- [ ] Feedback: Replace `console.log` placeholders with meaningful UI notifications (Toasts/Snackbars).
 
 </details>

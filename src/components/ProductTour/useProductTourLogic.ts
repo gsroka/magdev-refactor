@@ -9,6 +9,7 @@ interface TourStep {
   position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
+// @INFO: Selecting elements by class name is not the best approach
 export const tourSteps: readonly TourStep[] = [
   {
     selector: '.tour-trigger-button',

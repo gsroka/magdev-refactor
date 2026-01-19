@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import UserTable from '../components/UserTable';
 import { type User, initialUsers } from '@/mock/users';
 import { fetchFeaturedUser } from '@/mock/api';
-import { useTourStep } from '@/hooks/useTourStep';
 import { Box } from '@mui/material';
 
 export default function UserSection() {
-  const tour = useTourStep();
-
   const [users] = useState<User[]>(initialUsers);
   const [featuredUser, setFeaturedUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,9 +25,6 @@ export default function UserSection() {
   return (
     <Box>
       <UserTable
-        currentTourStep={tour.currentStep}
-        setCurrentTourStep={tour.setStep}
-        isTourActive={tour.isActive}
         users={users}
         featuredUser={featuredUser}
         loading={loading}

@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
 import type { AppSettings } from '@/context';
 import { AppSettingsContext } from '@/context';
 
@@ -15,14 +15,11 @@ interface AppSettingsProviderProps {
 export function AppSettingsProvider({ children }: AppSettingsProviderProps) {
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
 
-  const updateSettings = (newSettings: Partial<AppSettings>) => {
+  const updateSettings = useCallback((newSettings: Partial<AppSettings>) => {
     setSettings((prev) => ({ ...prev, ...newSettings }));
-  };
+  }, []);
 
-  const value = {
-    settings,
-    updateSettings,
-  };
+  const value = useMemo(() => ({ settings, updateSettings }), [settings, updateSettings]);
 
   return <AppSettingsContext.Provider value={value}>{children}</AppSettingsContext.Provider>;
 }

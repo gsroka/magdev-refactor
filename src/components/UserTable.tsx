@@ -14,14 +14,12 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import type { User } from '@/mock/users';
+import { useMemo } from 'react';
 
 interface UserTableProps {
   users: User[];
   featuredUser: User | null;
   loading: boolean;
-  currentTourStep: number;
-  setCurrentTourStep: (step: number) => void;
-  isTourActive: boolean;
 }
 
 const getStatusColor = (status: User['status']) => {
@@ -39,7 +37,10 @@ const getStatusColor = (status: User['status']) => {
 
 export default function UserTable({ users, featuredUser, loading }: UserTableProps) {
   // Combine users with featured user (if loaded)
-  const allUsers = featuredUser ? [...users, featuredUser] : users;
+  const allUsers = useMemo(
+    () => (featuredUser ? [...users, featuredUser] : users),
+    [users, featuredUser]
+  );
 
   if (loading && users.length === 0) {
     return (

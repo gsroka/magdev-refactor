@@ -141,6 +141,20 @@ TODO
   3. Alternatively, use `shallowEqual` as the second argument to `useSelector` (though strict selectors are preferred).
 - **Trade-offs:** Writing memoized selectors requires slightly more boilerplate code but ensures referential integrity and prevents performance regressions.
 
+###  **Bundle Size Optimization via Code Splitting**
+
+- **Issue:** The `ProductTour` component (and its dependencies) was included in the main JavaScript bundle, increasing the **Initial Load Time** (TTI/LCP) even for users who never activated the tour.
+- **Why:** Loading unused code wastes bandwidth and parses unnecessary JavaScript on the main thread, degrading Core Web Vitals.
+- **Fix:** Implemented `React.lazy` and `Suspense` to load the component chunks dynamically only when `isTourActive` becomes true.
+- **Trade-offs:** A slight, imperceptible delay (network request) occurs when the user clicks "Start Tour" for the first time.
+
+### **Stabilization of Context Values & Derived Data**
+
+- **Issue:** Context Providers passed a new object reference `{ settings, updateSettings }` on every render, and expensive derived arrays (e.g., `cards`) were recalculated needlessly.
+- **Why:** In React, passing a non-memoized object to a Context Provider forces **all** consumer components to re-render every time the Provider's parent renders, causing widespread performance degradation.
+- **Fix:** Wrapped context values and expensive data transformations in `useMemo` and `useCallback` to ensure referential equality.
+- **Trade-offs:** Minimal memory overhead for storing memoized values.
+
 </details>
 
 ---

@@ -4,13 +4,15 @@ import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import type { DashboardStats } from '@/mock/api';
+import { useMemo } from 'react';
 
 interface StatCardsProps {
   stats: DashboardStats | null;
   loading: boolean;
-  currentTourStep: number;
-  setCurrentTourStep: (step: number) => void;
-  isTourActive: boolean;
+  currentTourStep?: number;
+  // TODO:
+  // isTourActive?: boolean;
+  // onTourStepChange?: (step: number) => void;
 }
 
 interface StatCardData {
@@ -21,42 +23,48 @@ interface StatCardData {
   trend?: string;
 }
 
-export default function StatCards({ stats, loading, currentTourStep }: StatCardsProps) {
+export default function StatCards({
+  stats,
+  loading,
+  // TODO: For tests purposes only?
+  currentTourStep,
+}: StatCardsProps) {
   // localTourStep is used but always returns stale value due to hook bug
   // This demonstrates the custom hook state sync issue - value never updates from Redux
 
-  const cards: StatCardData[] = stats
-    ? [
-        {
-          title: 'Active Users',
-          value: stats.activeUsers.toLocaleString(),
-          icon: <PeopleIcon />,
-          color: '#1976d2',
-          trend: '+12%',
-        },
-        {
-          title: 'Total Revenue',
-          value: stats.totalRevenue,
-          icon: <AttachMoneyIcon />,
-          color: '#2e7d32',
-          trend: '+8%',
-        },
-        {
-          title: 'Conversion Rate',
-          value: stats.conversionRate,
-          icon: <TrendingUpIcon />,
-          color: '#ed6c02',
-          trend: '+2.1%',
-        },
-        {
-          title: 'New Signups',
-          value: stats.newSignups,
-          icon: <PersonAddIcon />,
-          color: '#9c27b0',
-          trend: '+24%',
-        },
-      ]
-    : [];
+  const cards: StatCardData[] = useMemo(() => {
+    if (!stats) return [];
+    return [
+      {
+        title: 'Active Users',
+        value: stats.activeUsers.toLocaleString(),
+        icon: <PeopleIcon />,
+        color: '#1976d2',
+        trend: '+12%',
+      },
+      {
+        title: 'Total Revenue',
+        value: stats.totalRevenue,
+        icon: <AttachMoneyIcon />,
+        color: '#2e7d32',
+        trend: '+8%',
+      },
+      {
+        title: 'Conversion Rate',
+        value: stats.conversionRate,
+        icon: <TrendingUpIcon />,
+        color: '#ed6c02',
+        trend: '+2.1%',
+      },
+      {
+        title: 'New Signups',
+        value: stats.newSignups,
+        icon: <PersonAddIcon />,
+        color: '#9c27b0',
+        trend: '+24%',
+      },
+    ];
+  }, [stats]);
 
   // TODO:
   if (loading) {
@@ -98,6 +106,7 @@ export default function StatCards({ stats, loading, currentTourStep }: StatCards
         mb: 4,
       }}
       className="stat-cards-container"
+      // TODO:
       data-tour-step={currentTourStep}
     >
       {cards.map((card, index) => (
