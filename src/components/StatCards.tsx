@@ -1,10 +1,11 @@
-import { Card, CardContent, Typography, Box, Skeleton } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import type { DashboardStats } from '@/mock/api';
 import { useMemo } from 'react';
+import SkeletonWrapper from '@/shared/SkeletonWrapper';
 
 interface StatCardsProps {
   stats: DashboardStats | null;
@@ -66,31 +67,8 @@ export default function StatCards({
     ];
   }, [stats]);
 
-  // TODO:
   if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            sm: 'repeat(2, 1fr)',
-            lg: 'repeat(4, 1fr)',
-          },
-          gap: 3,
-          mb: 4,
-        }}
-      >
-        {[1, 2, 3, 4].map((i) => (
-          <Card key={i}>
-            <CardContent>
-              <Skeleton variant="text" width="60%" />
-              <Skeleton variant="text" width="40%" height={40} />
-            </CardContent>
-          </Card>
-        ))}
-      </Box>
-    );
+    return <SkeletonWrapper />;
   }
 
   return (
