@@ -19,13 +19,22 @@
 
 **Console/Technical:**
 
-- `tourSlice` has an unused `nextStep` action.
+- ~~`tourSlice` has an unused `nextStep` action.~~
 - ~~Redux error: `initialHook` failing.~~
 
 **Architecture:**
 
-- ProductTour document.querySelector.
-- ProductTour addEventListener.
+- ProductTour
+  - fallow tooltip.
+  - document.querySelector.
+  - addEventListener.
+  - setInterval.
+  - performance.
+  - complexity.
+  - further tooltip improvements.
+  - tests.
+- type folder for interface TourState.
+- ~~TourPropsWrapper.~~
 
 **Modernization:**
 
@@ -38,6 +47,8 @@
 
 **Further modernization:**
 
+- setInterval
+- StatCards->setCurrentTourStep
 - setupTests.ts.
 - knip install.
 - React 19+.

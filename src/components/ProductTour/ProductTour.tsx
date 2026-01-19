@@ -1,8 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAppSelector, useAppDispatch } from '@/store/hooks';
-import { setCurrentStep, prevStep, endTour } from '@/store/tourSlice';
 
 interface TourStep {
   selector: string;
@@ -11,6 +9,7 @@ interface TourStep {
   position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
+// TODO:
 const tourSteps: TourStep[] = [
   {
     selector: '.tour-trigger-button',
@@ -50,44 +49,26 @@ const tourSteps: TourStep[] = [
   },
 ];
 
-// TODO: complexity
-export default function ProductTour() {
-  const dispatch = useAppDispatch();
-  const currentTourStep = useAppSelector((state) => state.tour.currentStep);
-  const isTourActive = useAppSelector((state) => state.tour.isActive);
-  const handleEndTour = () => {
-    dispatch(endTour());
-  };
+// TODO:
+interface ProductTourProps {
+  currentStep: number;
+  isActive: boolean;
+  nextStep: () => void;
+  prevStep: () => void;
+  endTour: () => void;
+}
 
+
+// TODO: complexity
+export default function ProductTour({ currentStep, isActive, nextStep, prevStep, endTour }: ProductTourProps) {
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
-  const [skipCount] = useState(0);
-
-  const calculateNextStep = (current: number, skipped: number) => {
-    return current + 1 + (skipped > 0 ? Math.floor(skipped / 2) : 0);
-  };
-
-  const handleNext = useCallback(() => {
-    const nextStep = calculateNextStep(currentTourStep, skipCount);
-    console.log('Next clicked, current step:', currentTourStep, 'skipCount:', skipCount);
-    dispatch(setCurrentStep(nextStep));
-  }, [currentTourStep, skipCount, dispatch]);
-
-  const handlePrev = () => {
-    if (currentTourStep > 0) {
-      dispatch(prevStep());
-    }
-  };
-
-  const handleSkip = () => {
-    handleEndTour();
-  };
 
   useEffect(() => {
     const updateTooltipPosition = () => {
-      if (!isTourActive) return;
+      if (!isActive) return;
 
-      const step = tourSteps[currentTourStep];
+      const step = tourSteps[currentStep];
       if (!step) return;
 
       // TODO:
@@ -138,24 +119,24 @@ export default function ProductTour() {
 
     updateTooltipPosition();
     window.addEventListener('resize', updateTooltipPosition);
+    // TODO:
     const intervalId = setInterval(updateTooltipPosition, 100);
 
     return () => {
       clearInterval(intervalId);
       window.removeEventListener('resize', updateTooltipPosition);
-      window.removeEventListener('scroll', updateTooltipPosition, true);
     };
-  }, [currentTourStep, isTourActive]);
+  }, [currentStep, isActive]);
 
-  if (!isTourActive) return null;
+  if (!isActive) return null;
 
-  const step = tourSteps[currentTourStep];
+  const step = tourSteps[currentStep];
   if (!step) {
-    handleEndTour();
+    endTour();
     return null;
   }
 
-  const isLastStep = currentTourStep === tourSteps.length - 1;
+  const isLastStep = currentStep === tourSteps.length - 1;
 
   return (
     <>
@@ -209,7 +190,7 @@ export default function ProductTour() {
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
             {step.title}
           </Typography>
-          <Button size="small" onClick={handleSkip} sx={{ minWidth: 'auto', p: 0.5 }}>
+          <Button size="small" onClick={endTour} sx={{ minWidth: 'auto', p: 0.5 }}>
             <CloseIcon fontSize="small" />
           </Button>
         </Box>
@@ -220,24 +201,24 @@ export default function ProductTour() {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="caption" color="text.secondary">
-            Step {currentTourStep + 1} of {tourSteps.length}
+            Step {currentStep + 1} of {tourSteps.length}
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 1 }}>
-            {currentTourStep > 0 && (
-              <Button variant="outlined" size="small" onClick={handlePrev}>
+            {currentStep > 0 && (
+              <Button variant="outlined" size="small" onClick={prevStep}>
                 Back
               </Button>
             )}
             {isLastStep ? (
-              <Button variant="contained" size="small" onClick={handleSkip}>
+              <Button variant="contained" size="small" onClick={isLastStep ? endTour : nextStep}>
                 Finish
               </Button>
             ) : (
               <Button
                 variant="contained"
                 size="small"
-                onClick={handleNext}
+                onClick={nextStep}
                 className="tour-next-button"
               >
                 Next

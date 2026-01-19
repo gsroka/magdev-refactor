@@ -39,10 +39,11 @@
 **Critical Fixes & Cleanup:**
 - [x] Fix Redux `initialHook` error.
 - [x] Implement `ErrorBoundary` (currently unused).
-- [ ] Remove redundant `DashboardPage` wrapper (simplify to `DashboardView`).
+- [x] Remove redundant `DashboardPage` wrapper (simplify to `DashboardView`).
 
-**Tour Engine Modernization:**
-- [ ] Refactor "ProductTour" steps logic.
+**Product Tour Modernization:**
+- [x] Refactor "ProductTour" steps logic, part 1.
+- [ ] Separate logic from view.
 - [ ] Fix memory leak in `ProductTour` resize listener (missing cleanup).
 - [ ] Replace global `document.querySelector`.
 - [ ] Replace `setInterval` polling with `ResizeObserver`.

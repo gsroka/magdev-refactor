@@ -8,6 +8,8 @@ TODO
 
 ## 🛡️ Type Safety & Code Quality
 
+<details>
+
 ### **Modernization of Build Tooling & Static Analysis Configuration**
 
 - **Issue:** The repository relied on outdated `package.json` dependencies and lacked strict, standardized configurations for linting and formatting.
@@ -53,7 +55,20 @@ TODO
 - **Fix:** Replaced `any` with specific Material UI types: `PaletteOptions` for color definitions and `Components` for component style overrides, imported directly from `@mui/material/styles`.
 - **Trade-offs:** Requires precise knowledge of the Material UI type hierarchy (`Options` types vs. runtime types), but guarantees IntelliSense support across the application.
 
+</details>
+
+---
+
 ## 🏗️ Architecture & Data Flow
+
+<details>
+
+### **Removal of Obsolete Render Prop Pattern (`TourWrapper`)**
+
+- **Issue:** The `TourWrapper` component relied on the legacy "Function as Child" (Render Prop) pattern to pass Redux state to its children.
+- **Why:** This pattern introduces unnecessary component nesting ("Wrapper Hell") and is considered redundant in modern React architecture where data can be accessed directly via Hooks (`useSelector`).
+- **Fix:** Deleted `TourWrapper` and refactored consumers to access state and actions directly via the optimized `useTourStep` hook.
+- **Trade-offs:** None. This simplifies the component tree and improves code readability.
 
 ### **Context Architecture Restructuring for Fast Refresh Support**
 
@@ -74,7 +89,13 @@ TODO
 - **Fix:** Merged the logic and presentation from `DashboardView` directly into `DashboardPage` and deleted the redundant `DashboardView` component.
 - **Trade-offs:** None. This is a purely refactored for maintainability.
 
+</details>
+
+---
+
 ## ⚛️ React Patterns & State Management
+
+<details>
 
 ### **Removal of "Derived State" Anti-Pattern in Custom Hooks**
 
@@ -83,29 +104,31 @@ TODO
 - **Fix:** Removed the intermediate `useState`. The hook now returns the Redux selector result directly.
 - **Trade-offs:** None. This restores the reactive data flow expected in React applications.
 
+</details>
+
+---
+
 ## ⚡ Performance
+
+<details>
+
+### **Memoization of Custom Redux Hooks (`useTourStep`)**
+
+- **Issue:** The `useTourStep` hook returned a new object literal and generated new function references (e.g., `nextStep: () => dispatch(...)`) on every render cycle.
+- **Why:** In React, object referential equality (`oldObject === newObject`) determines whether consumer components re-render. Returning a new object every time invalidates optimizations in children wrapped with `React.memo`, leading to unnecessary rendering of the entire tour UI.
+- **Fix:** Wrapped all action handlers in `useCallback` and the final return object in `useMemo` to ensure stable references across renders.
+- **Trade-offs:** Increased boilerplate within the hook definition in exchange for rendering stability in consumer components.
 
 ### **Fixing Unmemoized Redux Selectors (Reference Equality Issue)**
 
-* **Issue:** The console reported, "Selector unknown returned a different result when called with the same parameters." This occurred in `DashboardSection` and `UserSection`.
-* **Why:** Redux relies on strict equality checks (`===`). If a selector returns a new object or array literal (e.g., `state => ({ data: state.data })`) on every execution, Redux considers the state "changed" even if the values are identical. This triggers infinite re-render loops or unnecessary updates.
-* **Fix:**
+- **Issue:** The console reported, "Selector unknown returned a different result when called with the same parameters." This occurred in `DashboardSection` and `UserSection`.
+- **Why:** Redux relies on strict equality checks (`===`). If a selector returns a new object or array literal (e.g., `state => ({ data: state.data })`) on every execution, Redux considers the state "changed" even if the values are identical. This triggers infinite re-render loops or unnecessary updates.
+- **Fix:**
   1. Select only primitive values (strings, numbers) where possible.
   2. For derived complex data, use `createSelector` (from Reselect/Redux Toolkit) to memoize the result.
   3. Alternatively, use `shallowEqual` as the second argument to `useSelector` (though strict selectors are preferred).
-* **Trade-offs:** Writing memoized selectors requires slightly more boilerplate code but ensures referential integrity and prevents performance regressions.
+- **Trade-offs:** Writing memoized selectors requires slightly more boilerplate code but ensures referential integrity and prevents performance regressions.
 
-### **Fixing Memory Leaks in ProductTour Event Listeners**
+</details>
 
-- **Issue:** The `ProductTour` component attached `resize` event listeners and initialized `setInterval` timers but failed to clean them up completely when unmounting or re-rendering.
-- **Why:** Failing to remove global event listeners causes "stale handlers" to accumulate in memory. This degrades browser performance over time and can trigger errors when the listener tries to update state on an unmounted component.
-- **Fix:** Implemented a comprehensive cleanup function in `useEffect` that clears the interval and removes both `resize` and `scroll` event listeners.
-- **Trade-offs:** None. Proper cleanup is mandatory for side effects in React.
-
-## 🚨 Error Handling
-
-- **XXX**
-- **Issue:** XXX.
-- **Why:** XXX.
-- **Fix** XXX.
-- **Trade-offs** XXX.
+---

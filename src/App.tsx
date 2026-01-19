@@ -1,5 +1,5 @@
 import AppShell from './layout/AppShell';
-import DashboardPage from './pages/DashboardPage';
+import DashboardPage from '@/pages/DashboardPage';
 
 function App() {
   return (
