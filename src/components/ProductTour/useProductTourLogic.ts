@@ -127,7 +127,9 @@ export function useProductTourLogic({
         TOOLTIP_OFFSET
       );
 
-      setTooltipPosition(position);
+      setTooltipPosition((prev) =>
+        prev.top === position.top && prev.left === position.left ? prev : position
+      );
       setIsVisible(true);
     });
   }, [currentStepData, isActive]);
