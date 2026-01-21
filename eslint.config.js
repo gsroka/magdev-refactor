@@ -9,7 +9,7 @@ import globals from 'globals';
 
 export default ts.config(
   {
-    ignores: ['dist/**', 'node_modules/**', '*.config.{js,ts}', '**/*.d.ts'],
+    ignores: ['dist/**', 'node_modules/**', '*.config.{js,ts}', '**/*.d.ts', 'coverage'],
   },
   js.configs.recommended,
   ...ts.configs.recommended,
