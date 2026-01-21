@@ -6,6 +6,38 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import type { DashboardStats } from '@/mock/api';
 import { useMemo } from 'react';
 import SkeletonWrapper from '@/shared/SkeletonWrapper';
+import { Skeleton } from '@mui/material';
+
+const StatCardsSkeleton = () => (
+  <Box
+    sx={{
+      display: 'grid',
+      gridTemplateColumns: {
+        xs: '1fr',
+        sm: 'repeat(2, 1fr)',
+        lg: 'repeat(4, 1fr)',
+      },
+      gap: 3,
+      mb: 4,
+      minHeight: 140,
+    }}
+  >
+    {[1, 2, 3, 4].map((i) => (
+      <Card key={i}>
+        <CardContent>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <Skeleton variant="text" width="60%" sx={{ mb: 1 }} />
+              <Skeleton variant="rectangular" width="40%" height={32} sx={{ mb: 1, borderRadius: 1 }} />
+              <Skeleton variant="text" width="50%" height={20} />
+            </Box>
+            <Skeleton variant="rectangular" width={40} height={40} sx={{ borderRadius: 2, ml: 2 }} />
+          </Box>
+        </CardContent>
+      </Card>
+    ))}
+  </Box>
+);
 
 interface StatCardsProps {
   stats: DashboardStats | null;
@@ -67,83 +99,81 @@ export default function StatCards({
     ];
   }, [stats]);
 
-  if (loading) {
-    return <SkeletonWrapper />;
-  }
-
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: {
-          xs: '1fr',
-          sm: 'repeat(2, 1fr)',
-          lg: 'repeat(4, 1fr)',
-        },
-        gap: 3,
-        mb: 4,
-      }}
-      className="stat-cards-container"
-      // TODO:
-      data-tour-step={currentTourStep}
-    >
-      {cards.map((card, index) => (
-        <Card
-          key={card.title}
-          className={`stat-card stat-card-${index}`}
-          onClick={() => {
-            console.log('Card clicked:', card.title);
-          }}
-          sx={{
-            position: 'relative',
-            overflow: 'visible',
-            cursor: 'pointer',
-            '&:hover': {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            },
-            transition: 'all 0.2s ease-in-out',
-          }}
-        >
-          <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-              }}
-            >
-              <Box>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                  {card.title}
-                </Typography>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                  {card.value}
-                </Typography>
-                {card.trend && (
-                  <Typography variant="caption" sx={{ color: 'success.main', fontWeight: 500 }}>
-                    {card.trend} vs last month
-                  </Typography>
-                )}
-              </Box>
+    <SkeletonWrapper loading={loading} fallback={<StatCardsSkeleton />} minHeight={140}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            lg: 'repeat(4, 1fr)',
+          },
+          gap: 3,
+          mb: 4,
+        }}
+        className="stat-cards-container"
+        // TODO:
+        data-tour-step={currentTourStep}
+      >
+        {cards.map((card, index) => (
+          <Card
+            key={card.title}
+            className={`stat-card stat-card-${index}`}
+            onClick={() => {
+              console.log('Card clicked:', card.title);
+            }}
+            sx={{
+              position: 'relative',
+              overflow: 'visible',
+              cursor: 'pointer',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              },
+              transition: 'all 0.2s ease-in-out',
+            }}
+          >
+            <CardContent>
               <Box
                 sx={{
-                  p: 1,
-                  borderRadius: 2,
-                  backgroundColor: (theme) => alpha(theme.palette[card.color].main, 0.08),
-                  color: `${card.color}.main`,
-                }}
-                style={{
                   display: 'flex',
-                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
                 }}
               >
-                {card.icon}
+                <Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                    {card.title}
+                  </Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                    {card.value}
+                  </Typography>
+                  {card.trend && (
+                    <Typography variant="caption" sx={{ color: 'success.main', fontWeight: 500 }}>
+                      {card.trend} vs last month
+                    </Typography>
+                  )}
+                </Box>
+                <Box
+                  sx={{
+                    p: 1,
+                    borderRadius: 2,
+                    backgroundColor: (theme) => alpha(theme.palette[card.color].main, 0.08),
+                    color: `${card.color}.main`,
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {card.icon}
+                </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-      ))}
-    </Box>
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+    </SkeletonWrapper>
   );
 }

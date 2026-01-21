@@ -1,30 +1,63 @@
-import { Box, Card, CardContent, Skeleton } from '@mui/material';
+import { Box } from '@mui/material';
+import React from 'react';
 
-function SkeletonWrapper() {
+interface SkeletonWrapperProps {
+  children: React.ReactNode;
+  loading: boolean;
+  fallback: React.ReactNode;
+  minHeight?: number | string;
+  delay?: number;
+}
+
+function SkeletonWrapper({
+  children,
+  loading,
+  fallback,
+  minHeight,
+  delay = 150,
+}: SkeletonWrapperProps) {
   return (
-    <>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 1fr)',
+        minHeight,
+        position: 'relative',
+        width: '100%',
+        '& > *': {
+          gridArea: '1 / 1',
+          minWidth: 0,
+        }
+      }}
+    >
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            sm: 'repeat(2, 1fr)',
-            lg: 'repeat(4, 1fr)',
-          },
-          gap: 3,
-          mb: 4,
+          opacity: loading ? 1 : 0,
+          visibility: loading ? 'visible' : 'hidden',
+          transition: (theme) => theme.transitions.create(['opacity', 'visibility'], {
+            duration: 400,
+            delay: loading ? `${delay}ms` : '0ms',
+          }),
+          pointerEvents: loading ? 'auto' : 'none',
         }}
       >
-        {[1, 2, 3, 4].map((i) => (
-          <Card key={i}>
-            <CardContent>
-              <Skeleton variant="text" width="60%" />
-              <Skeleton variant="text" width="40%" height={40} />
-            </CardContent>
-          </Card>
-        ))}
+        {fallback}
       </Box>
-    </>
+
+      <Box
+        sx={{
+          opacity: !loading ? 1 : 0,
+          visibility: !loading ? 'visible' : 'hidden',
+          transition: (theme) => theme.transitions.create(['opacity', 'visibility'], {
+            duration: 400,
+          }),
+          width: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   );
 }
 

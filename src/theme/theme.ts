@@ -102,6 +102,16 @@ const componentOverrides: Components<Omit<Theme, 'components'>> = {
       },
     },
   },
+  MuiSkeleton: {
+    defaultProps: {
+      animation: 'wave',
+    },
+    styleOverrides: {
+      root: {
+        backgroundColor: 'rgba(0, 0, 0, 0.06)',
+      },
+    },
+  },
 };
 
 const theme = createTheme({
