@@ -67,7 +67,10 @@ export default function AppShell({ children }: AppShellProps) {
             <NotificationsIcon />
           </IconButton>
 
-          <Avatar sx={{ ml: 2, width: 32, height: 32, bgcolor: 'primary.main' }} className="user-avatar">
+          <Avatar
+            sx={{ ml: 2, width: 32, height: 32, bgcolor: 'primary.main' }}
+            className="user-avatar"
+          >
             U
           </Avatar>
         </Toolbar>

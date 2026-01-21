@@ -24,11 +24,7 @@ export default function UserSection() {
 
   return (
     <Box>
-      <UserTable
-        users={users}
-        featuredUser={featuredUser}
-        loading={loading}
-      />
+      <UserTable users={users} featuredUser={featuredUser} loading={loading} />
     </Box>
   );
 }

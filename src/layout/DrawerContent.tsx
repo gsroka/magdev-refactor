@@ -50,7 +50,9 @@ export const DrawerContent = () => {
                 },
               }}
             >
-              <ListItemIcon sx={{ color: 'custom.drawerMuted', minWidth: 40 }}>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: 'custom.drawerMuted', minWidth: 40 }}>
+                {item.icon}
+              </ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>

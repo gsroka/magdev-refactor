@@ -15,7 +15,7 @@
 - Cards have `cursor: pointer` but no hover state or action.
 - ~~Mobile view fix.~~
 - spinner/skeleton loading.
-- HTML/MUI verification. 
+- HTML/MUI verification.
 
 **Console/Technical:**
 
@@ -63,4 +63,3 @@
   - Avatar doesn't open a menu.
   - "Add User" and "Edit User" only trigger `console.log`.
 - Navigation: All sidebar links (Dashboard, Users, Settings) are static.
-

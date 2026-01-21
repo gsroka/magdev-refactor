@@ -30,11 +30,7 @@ export default function DashboardSection() {
 
   return (
     <Box>
-      <StatCards
-        stats={stats}
-        loading={loading}
-        currentTourStep={currentStep}
-      />
+      <StatCards stats={stats} loading={loading} currentTourStep={currentStep} />
       <UserSection />
       {isActive && (
         <Suspense fallback={null}>

@@ -86,12 +86,14 @@ I refactored the legacy React codebase to align with **2026 Industry Standards**
 - **Trade-offs:** Increases the total file count in the project structure but guarantees instant state preservation during code edits.
 
 ### **Integration of Global Error Boundary**
+
 - **Issue:** The `ErrorBoundary` component existed in the codebase but was not used, leaving the application vulnerable to complete crashes.
 - **Why:** Without a boundary, a single JavaScript error in any UI component triggers the "White Screen of Death," rendering the entire application unusable.
 - **Fix:** Wrapped the core application logic with the `ErrorBoundary` component immediately inside `React.StrictMode` in the entry file.
 - **Trade-offs:** Errors are now caught and logged, but the UI within the boundary is replaced by a fallback view, requiring user interaction (e.g., page refresh) to recover.
 
 ### **Simplification of Dashboard Hierarchy (Removal of Ghost Wrapper)**
+
 - **Issue:** `DashboardPage` acted as a redundant wrapper for `DashboardView`, adding unnecessary depth to the component tree without providing additional logic or layout.
 - **Why:** Superfluous nesting increases React's Virtual DOM complexity ("Component Hell") and makes code navigation difficult for other developers.
 - **Fix:** Merged the logic and presentation from `DashboardView` directly into `DashboardPage` and deleted the redundant `DashboardView` component.
@@ -123,13 +125,14 @@ I refactored the legacy React codebase to align with **2026 Industry Standards**
 <summary>View Details</summary>
 
 ### **Migration from Polling to Reactive DOM Observers**
+
 - **Issue:** The legacy implementation used a `setInterval` (polling every 100ms) and global `window` listeners to track element positions.
 - **Why:** Polling causes constant main-thread activity even when the UI is static, draining battery on mobile devices and causing layout thrashing (forced reflows).
 - **Fix:** Replaced polling with modern browser APIs:
-  * `ResizeObserver`: To detect size changes of the target element.
-  * `IntersectionObserver`: To handle visibility changes.
-  * `MutationObserver`: To detect when target elements are added/removed from the DOM.
-  * Wrapped updates in `requestAnimationFrame` to sync with the browser's refresh rate.
+  - `ResizeObserver`: To detect size changes of the target element.
+  - `IntersectionObserver`: To handle visibility changes.
+  - `MutationObserver`: To detect when target elements are added/removed from the DOM.
+  - Wrapped updates in `requestAnimationFrame` to sync with the browser's refresh rate.
 - **Trade-offs:** Higher code complexity in the setup/teardown phase compared to a simple interval, but results in near-zero idle CPU usage.
 
 ### **Memoization of Custom Redux Hooks (`useTourStep`)**
@@ -146,7 +149,7 @@ I refactored the legacy React codebase to align with **2026 Industry Standards**
 - **Fix:** Refactored selectors to retrieve primitive values (e.g., `const step = state.tour.currentStep`) individually instead of selecting and returning a composite object.
 - **Trade-offs:** Requires multiple `useSelector` calls instead of a single one, but ensures referential integrity and prevents performance regressions.
 
-###  **Bundle Size Optimization via Code Splitting**
+### **Bundle Size Optimization via Code Splitting**
 
 - **Issue:** The `ProductTour` component (and its dependencies) was included in the main JavaScript bundle, increasing the **Initial Load Time** (TTI/LCP) even for users who never activated the tour.
 - **Why:** Loading unused code wastes bandwidth and parses unnecessary JavaScript on the main thread, degrading Core Web Vitals.

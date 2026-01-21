@@ -10,12 +10,12 @@ import {
   Typography,
   Box,
   Button,
+  Skeleton,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import type { User } from '@/mock/users';
 import { useMemo } from 'react';
 import SkeletonWrapper from '@/shared/SkeletonWrapper';
-import { Skeleton } from '@mui/material';
 
 const UserTableSkeleton = () => (
   <Box sx={{ minHeight: 450 }}>

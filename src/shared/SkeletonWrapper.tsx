@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import React from 'react';
 
 interface SkeletonWrapperProps {
   children: React.ReactNode;
@@ -27,17 +26,18 @@ function SkeletonWrapper({
         '& > *': {
           gridArea: '1 / 1',
           minWidth: 0,
-        }
+        },
       }}
     >
       <Box
         sx={{
           opacity: loading ? 1 : 0,
           visibility: loading ? 'visible' : 'hidden',
-          transition: (theme) => theme.transitions.create(['opacity', 'visibility'], {
-            duration: 400,
-            delay: loading ? `${delay}ms` : '0ms',
-          }),
+          transition: (theme) =>
+            theme.transitions.create(['opacity', 'visibility'], {
+              duration: 400,
+              delay: loading ? `${delay}ms` : '0ms',
+            }),
           pointerEvents: loading ? 'auto' : 'none',
         }}
       >
@@ -48,9 +48,10 @@ function SkeletonWrapper({
         sx={{
           opacity: !loading ? 1 : 0,
           visibility: !loading ? 'visible' : 'hidden',
-          transition: (theme) => theme.transitions.create(['opacity', 'visibility'], {
-            duration: 400,
-          }),
+          transition: (theme) =>
+            theme.transitions.create(['opacity', 'visibility'], {
+              duration: 400,
+            }),
           width: '100%',
           overflow: 'hidden',
         }}

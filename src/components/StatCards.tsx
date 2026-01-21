@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box, alpha } from '@mui/material';
+import { Card, CardContent, Typography, Box, alpha, Skeleton } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -6,7 +6,6 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import type { DashboardStats } from '@/mock/api';
 import { useMemo } from 'react';
 import SkeletonWrapper from '@/shared/SkeletonWrapper';
-import { Skeleton } from '@mui/material';
 
 const StatCardsSkeleton = () => (
   <Box
@@ -28,10 +27,20 @@ const StatCardsSkeleton = () => (
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <Box sx={{ flexGrow: 1 }}>
               <Skeleton variant="text" width="60%" sx={{ mb: 1 }} />
-              <Skeleton variant="rectangular" width="40%" height={32} sx={{ mb: 1, borderRadius: 1 }} />
+              <Skeleton
+                variant="rectangular"
+                width="40%"
+                height={32}
+                sx={{ mb: 1, borderRadius: 1 }}
+              />
               <Skeleton variant="text" width="50%" height={20} />
             </Box>
-            <Skeleton variant="rectangular" width={40} height={40} sx={{ borderRadius: 2, ml: 2 }} />
+            <Skeleton
+              variant="rectangular"
+              width={40}
+              height={40}
+              sx={{ borderRadius: 2, ml: 2 }}
+            />
           </Box>
         </CardContent>
       </Card>

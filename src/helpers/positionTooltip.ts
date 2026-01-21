@@ -39,4 +39,4 @@ export function calculateTooltipPosition(
   const clampLeft = Math.max(10, Math.min(left, window.innerWidth - tooltipWidth - 10));
 
   return { top: clampTop, left: clampLeft };
-};
+}
