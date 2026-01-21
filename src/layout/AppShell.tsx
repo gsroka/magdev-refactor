@@ -4,25 +4,17 @@ import {
   Box,
   Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Toolbar,
   Typography,
   Avatar,
   Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { useAppSettings } from '@/context';
 import { useAppDispatch } from '@/store/hooks';
 import { startTour } from '@/store/tourSlice';
+import { DrawerContent } from './DrawerContent';
 
 const DRAWER_WIDTH = 240;
 
@@ -30,59 +22,13 @@ interface AppShellProps {
   children: React.ReactNode;
 }
 
-const navItems = [
-  { text: 'Dashboard', icon: <DashboardIcon /> },
-  { text: 'Users', icon: <PeopleIcon /> },
-  { text: 'Settings', icon: <SettingsIcon /> },
-];
-
 export default function AppShell({ children }: AppShellProps) {
   const dispatch = useAppDispatch();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const appSettings = useAppSettings();
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const drawerContent = (
-    <Box sx={{ overflow: 'auto', mt: 2 }}>
-      <Box sx={{ px: 2, mb: 3 }}>
-        <Typography
-          variant="h6"
-          sx={{
-            color: (theme) => theme.palette.primary.contrastText,
-            fontWeight: 700,
-            letterSpacing: '-0.5px',
-          }}
-        >
-          OmniGuide
-        </Typography>
-        <Typography variant="caption" sx={{ color: '#94a3b8' }}>
-          Dashboard v1.0 ({appSettings.settings.language})
-        </Typography>
-      </Box>
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton
-              sx={{
-                mx: 1,
-                borderRadius: 2,
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.08)',
-                },
-              }}
-            >
-              <ListItemIcon sx={{ color: '#94a3b8', minWidth: 40 }}>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
@@ -144,7 +90,7 @@ export default function AppShell({ children }: AppShellProps) {
           },
         }}
       >
-        {drawerContent}
+        <DrawerContent />
       </Drawer>
 
       {/* Drawer - Desktop */}
@@ -159,7 +105,7 @@ export default function AppShell({ children }: AppShellProps) {
         }}
         open
       >
-        {drawerContent}
+        <DrawerContent />
       </Drawer>
 
       {/* Main Content */}
