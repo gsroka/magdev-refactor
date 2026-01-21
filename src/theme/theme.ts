@@ -10,6 +10,8 @@ declare module '@mui/material/styles' {
     custom: {
       drawerBackground: string;
       drawerText: string;
+      drawerMuted: string;
+      featuredBackground: string;
     };
   }
 
@@ -17,6 +19,8 @@ declare module '@mui/material/styles' {
     custom?: {
       drawerBackground: string;
       drawerText: string;
+      drawerMuted: string;
+      featuredBackground: string;
     };
   }
 }
@@ -34,6 +38,18 @@ const customPalette: PaletteOptions = {
     dark: '#7b1fa2',
     contrastText: '#fff',
   },
+  success: {
+    main: '#2e7d32',
+    light: '#4caf50',
+    dark: '#1b5e20',
+    contrastText: '#fff',
+  },
+  warning: {
+    main: '#ed6c02',
+    light: '#ff9800',
+    dark: '#e65100',
+    contrastText: '#fff',
+  },
   background: {
     default: '#f5f5f5',
     paper: '#ffffff',
@@ -41,6 +57,8 @@ const customPalette: PaletteOptions = {
   custom: {
     drawerBackground: '#1e293b',
     drawerText: '#e2e8f0',
+    drawerMuted: '#94a3b8',
+    featuredBackground: '#fffde7',
   },
 };
 

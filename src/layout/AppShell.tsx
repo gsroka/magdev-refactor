@@ -35,8 +35,8 @@ export default function AppShell({ children }: AppShellProps) {
         sx={{
           width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { md: `${DRAWER_WIDTH}px` },
-          backgroundColor: (theme) => theme.palette.background.paper,
-          color: (theme) => theme.palette.custom.drawerBackground,
+          bgcolor: 'background.paper',
+          color: 'custom.drawerBackground',
         }}
       >
         <Toolbar>
@@ -67,7 +67,7 @@ export default function AppShell({ children }: AppShellProps) {
             <NotificationsIcon />
           </IconButton>
 
-          <Avatar sx={{ ml: 2, width: 32, height: 32, bgcolor: '#1976d2' }} className="user-avatar">
+          <Avatar sx={{ ml: 2, width: 32, height: 32, bgcolor: 'primary.main' }} className="user-avatar">
             U
           </Avatar>
         </Toolbar>
@@ -114,7 +114,7 @@ export default function AppShell({ children }: AppShellProps) {
           width: { xs: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { md: `${DRAWER_WIDTH}px` },
           mt: '64px',
-          backgroundColor: '#f5f5f5',
+          bgcolor: 'background.default',
           minHeight: 'calc(100dvh - 64px)',
         }}
       >

@@ -92,7 +92,7 @@ export default function UserTable({ users, featuredUser, loading }: UserTablePro
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
                   ...(user.id === 99 && {
-                    backgroundColor: '#fffde7',
+                    backgroundColor: 'custom.featuredBackground',
                     '& td': { fontWeight: 500 },
                   }),
                 }}

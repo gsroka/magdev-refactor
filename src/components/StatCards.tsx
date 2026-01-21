@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box, alpha } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -20,7 +20,7 @@ interface StatCardData {
   title: string;
   value: string | number;
   icon: React.ReactNode;
-  color: string;
+  color: 'primary' | 'success' | 'warning' | 'secondary';
   trend?: string;
 }
 
@@ -40,28 +40,28 @@ export default function StatCards({
         title: 'Active Users',
         value: stats.activeUsers.toLocaleString(),
         icon: <PeopleIcon />,
-        color: '#1976d2',
+        color: 'primary',
         trend: '+12%',
       },
       {
         title: 'Total Revenue',
         value: stats.totalRevenue,
         icon: <AttachMoneyIcon />,
-        color: '#2e7d32',
+        color: 'success',
         trend: '+8%',
       },
       {
         title: 'Conversion Rate',
         value: stats.conversionRate,
         icon: <TrendingUpIcon />,
-        color: '#ed6c02',
+        color: 'warning',
         trend: '+2.1%',
       },
       {
         title: 'New Signups',
         value: stats.newSignups,
         icon: <PersonAddIcon />,
-        color: '#9c27b0',
+        color: 'secondary',
         trend: '+24%',
       },
     ];
@@ -121,7 +121,7 @@ export default function StatCards({
                   {card.value}
                 </Typography>
                 {card.trend && (
-                  <Typography variant="caption" sx={{ color: '#2e7d32', fontWeight: 500 }}>
+                  <Typography variant="caption" sx={{ color: 'success.main', fontWeight: 500 }}>
                     {card.trend} vs last month
                   </Typography>
                 )}
@@ -130,8 +130,8 @@ export default function StatCards({
                 sx={{
                   p: 1,
                   borderRadius: 2,
-                  backgroundColor: `${card.color}15`,
-                  color: card.color,
+                  backgroundColor: (theme) => alpha(theme.palette[card.color].main, 0.08),
+                  color: `${card.color}.main`,
                 }}
                 style={{
                   display: 'flex',

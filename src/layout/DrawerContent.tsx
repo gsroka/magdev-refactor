@@ -27,14 +27,14 @@ export const DrawerContent = () => {
         <Typography
           variant="h6"
           sx={{
-            color: (theme) => theme.palette.primary.contrastText,
+            color: 'primary.contrastText',
             fontWeight: 700,
             letterSpacing: '-0.5px',
           }}
         >
           OmniGuide
         </Typography>
-        <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+        <Typography variant="caption" sx={{ color: 'custom.drawerMuted' }}>
           Dashboard v1.0 ({appSettings.settings.language})
         </Typography>
       </Box>
@@ -50,7 +50,7 @@ export const DrawerContent = () => {
                 },
               }}
             >
-              <ListItemIcon sx={{ color: '#94a3b8', minWidth: 40 }}>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: 'custom.drawerMuted', minWidth: 40 }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
