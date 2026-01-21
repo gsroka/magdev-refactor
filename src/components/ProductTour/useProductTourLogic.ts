@@ -36,11 +36,20 @@ export function useProductTourLogic({
   const [isVisible, setIsVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const rAFRef = useRef<number | null>(null);
+  const observersRef = useRef<ReturnType<typeof setupTourObservers> | null>(null);
 
   const totalSteps = steps.length;
   const isValidStep = isActive && currentStep >= 0 && currentStep < totalSteps;
   const currentStepData = isValidStep ? (steps[currentStep] ?? null) : null;
   const isLastStep = currentStep === totalSteps - 1;
+
+  const cleanupObservers = useCallback(() => {
+    if (observersRef.current) {
+      observersRef.current.resizeObserver.disconnect();
+      observersRef.current.intersectionObserver.disconnect();
+      observersRef.current = null;
+    }
+  }, []);
 
   const throttledUpdate = useCallback(() => {
     if (rAFRef.current) {
@@ -93,6 +102,7 @@ export function useProductTourLogic({
   useEffect(() => {
     if (!isActive || !currentStepData) {
       setIsVisible(false);
+      cleanupObservers();
       return;
     }
 
@@ -105,18 +115,18 @@ export function useProductTourLogic({
     const rootContainer = document.getElementById(OBSERVER_ELEMENT) ?? document.body;
     const targetElement = document.querySelector(currentStepData.selector);
 
-    let observers: ReturnType<typeof setupTourObservers> | null = null;
-
     if (targetElement) {
-      observers = setupTourObservers(targetElement, throttledUpdate, rootContainer);
+      cleanupObservers();
+      observersRef.current = setupTourObservers(targetElement, throttledUpdate, rootContainer);
     }
 
     const mutationObserver = new MutationObserver(() => {
       const el = document.querySelector(currentStepData.selector);
-      if (el && !observers) {
-        observers = setupTourObservers(el, throttledUpdate, rootContainer);
+      if (el && !observersRef.current) {
+        observersRef.current = setupTourObservers(el, throttledUpdate, rootContainer);
         throttledUpdate();
       } else if (!el && isVisible) {
+        cleanupObservers();
         setIsVisible(false);
       }
     });
@@ -132,14 +142,13 @@ export function useProductTourLogic({
     return () => {
       controller.abort();
       mutationObserver.disconnect();
-      observers?.resizeObserver.disconnect();
-      observers?.intersectionObserver.disconnect();
+      cleanupObservers();
       if (rAFRef.current) {
         cancelAnimationFrame(rAFRef.current);
       }
       clearTimeout(focusTimer);
     };
-  }, [currentStepData, isActive, throttledUpdate, isVisible]);
+  }, [currentStepData, isActive, throttledUpdate, isVisible, cleanupObservers]);
 
   return {
     tooltipPosition,
