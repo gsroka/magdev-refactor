@@ -5,6 +5,8 @@ import UserSection from './UserSection';
 import { type DashboardStats, fetchDashboardStats } from '@/mock/api';
 import { useAppSelector } from '@/store/hooks';
 
+import { tourSteps } from '@/components/ProductTour/tourSteps';
+
 const ProductTour = lazy(() => import('@/components/ProductTour/ProductTour'));
 
 export default function DashboardSection() {
@@ -13,13 +15,6 @@ export default function DashboardSection() {
 
   const currentStep = useAppSelector((state) => state.tour.currentStep);
   const isActive = useAppSelector((state) => state.tour.isActive);
-
-  // const handleSetStep = useCallback(
-  //   (step: number) => {
-  //     dispatch(setCurrentStep(step));
-  //   },
-  //   [dispatch]
-  // );
 
   useEffect(() => {
     fetchDashboardStats()
@@ -39,14 +34,11 @@ export default function DashboardSection() {
         stats={stats}
         loading={loading}
         currentTourStep={currentStep}
-        // onTourStepChange={handleSetStep}
-        // isTourActive={isActive}
       />
       <UserSection />
-      {/* @INFO: There is only one page available, so I'll leave it here for now. */}
       {isActive && (
         <Suspense fallback={null}>
-          <ProductTour />
+          <ProductTour steps={tourSteps} />
         </Suspense>
       )}
     </Box>

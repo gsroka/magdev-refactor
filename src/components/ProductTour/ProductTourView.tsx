@@ -1,10 +1,11 @@
 import { Box, Typography, Button, Paper } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import type { TourStep } from './tourSteps';
 
 interface ProductTourViewProps {
   tooltipPosition: { top: number; left: number };
   targetRect: DOMRect | null;
-  currentStepData: { title: string; content: string } | null;
+  currentStepData: TourStep | null;
   isLastStep: boolean;
   tooltipRef: React.RefObject<HTMLDivElement>;
   onEnd: () => void;

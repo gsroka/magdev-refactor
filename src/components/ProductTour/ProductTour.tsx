@@ -1,28 +1,42 @@
-import { tourSteps, useProductTourLogic } from '@/components/ProductTour/useProductTourLogic';
+import { useProductTourLogic } from '@/components/ProductTour/useProductTourLogic';
 import { ProductTourView } from '@/components/ProductTour/ProductTourView';
 import { useTourStep } from '@/hooks/useTourStep';
+import type { TourStep } from '@/components/ProductTour/tourSteps';
 
-export default function ProductTour() {
+interface ProductTourProps {
+  steps: readonly TourStep[];
+}
+
+export default function ProductTour({ steps }: ProductTourProps) {
   const { currentStep, isActive, nextStep, prevStep, endTour } = useTourStep();
 
-  const logic = useProductTourLogic({ currentStep, isActive });
+  const {
+    isVisible,
+    currentStepData,
+    tooltipPosition,
+    targetRect,
+    isLastStep,
+    tooltipRef,
+    totalSteps,
+    currentStepIndex,
+  } = useProductTourLogic({ currentStep, isActive, steps });
 
-  if (!logic.isVisible || !logic.currentStepData) {
+  if (!isVisible || !currentStepData) {
     return null;
   }
 
   return (
     <ProductTourView
-      tooltipPosition={logic.tooltipPosition}
-      targetRect={logic.targetRect}
-      currentStepData={logic.currentStepData}
-      isLastStep={logic.isLastStep}
-      tooltipRef={logic.tooltipRef}
+      tooltipPosition={tooltipPosition}
+      targetRect={targetRect}
+      currentStepData={currentStepData}
+      isLastStep={isLastStep}
+      tooltipRef={tooltipRef}
       onEnd={endTour}
       onNext={nextStep}
       onPrev={prevStep}
-      totalSteps={tourSteps.length}
-      currentStepIndex={currentStep}
+      totalSteps={totalSteps}
+      currentStepIndex={currentStepIndex}
     />
   );
 }

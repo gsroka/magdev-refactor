@@ -1,57 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { calculateTooltipPosition } from '@/helpers/positionTooltip';
 import { setupTourObservers } from '@/helpers/setupObservers';
-
-interface TourStep {
-  selector: string;
-  title: string;
-  content: string;
-  position?: 'top' | 'bottom' | 'left' | 'right';
-}
-
-// @INFO: Selecting elements by class name is not the best approach
-export const tourSteps: readonly TourStep[] = [
-  {
-    selector: '.tour-trigger-button',
-    title: 'Welcome to OmniGuide!',
-    content: 'Click here anytime to restart the product tour.',
-    position: 'bottom',
-  },
-  {
-    selector: '.stat-card-0',
-    title: 'Your Key Metrics',
-    content: 'This card shows your active users. Keep an eye on this KPI!',
-    position: 'bottom',
-  },
-  {
-    selector: '.add-user-button',
-    title: 'Add New Users',
-    content: 'Click here to add new users to your organization.',
-    position: 'left',
-  },
-  {
-    selector: '.user-table-container',
-    title: 'User Management',
-    content: 'View and manage all your users in this table.',
-    position: 'top',
-  },
-  {
-    selector: '.featured-user-row',
-    title: 'Featured User!',
-    content: 'This is a VIP user that was just added to the system.',
-    position: 'top',
-  },
-  {
-    selector: '.notifications-button',
-    title: 'Notifications',
-    content: "Check your notifications here. You're all caught up!",
-    position: 'bottom',
-  },
-];
+import type { TourStep } from './tourSteps';
 
 interface UseProductTourLogicProps {
   currentStep: number;
   isActive: boolean;
+  steps: readonly TourStep[];
 }
 
 export interface ProductTourState {
@@ -60,6 +15,9 @@ export interface ProductTourState {
   isVisible: boolean;
   currentStepData: TourStep | null;
   isLastStep: boolean;
+  tooltipRef: React.RefObject<HTMLDivElement>;
+  totalSteps: number;
+  currentStepIndex: number;
 }
 
 const TOOLTIP_WIDTH = 320;
@@ -71,26 +29,24 @@ const OBSERVER_ELEMENT = 'root';
 export function useProductTourLogic({
   currentStep,
   isActive,
-}: UseProductTourLogicProps): ProductTourState & {
-  tooltipRef: React.RefObject<HTMLDivElement>;
-} {
+  steps,
+}: UseProductTourLogicProps): ProductTourState {
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const rAFRef = useRef<number | null>(null);
 
-  const currentStepData = useMemo(() => {
-    if (!isActive || currentStep < 0 || currentStep >= tourSteps.length) {
-      return null;
-    }
-    return tourSteps.at(currentStep) ?? null;
-  }, [currentStep, isActive]);
-
-  const isLastStep = currentStep === tourSteps.length - 1;
+  const totalSteps = steps.length;
+  const isValidStep = isActive && currentStep >= 0 && currentStep < totalSteps;
+  const currentStepData = isValidStep ? (steps[currentStep] ?? null) : null;
+  const isLastStep = currentStep === totalSteps - 1;
 
   const throttledUpdate = useCallback(() => {
-    if (rAFRef.current) cancelAnimationFrame(rAFRef.current);
+    if (rAFRef.current) {
+      cancelAnimationFrame(rAFRef.current);
+    }
+
     rAFRef.current = requestAnimationFrame(() => {
       if (!isActive || !currentStepData) {
         setIsVisible(false);
@@ -150,9 +106,11 @@ export function useProductTourLogic({
     const targetElement = document.querySelector(currentStepData.selector);
 
     let observers: ReturnType<typeof setupTourObservers> | null = null;
+
     if (targetElement) {
       observers = setupTourObservers(targetElement, throttledUpdate, rootContainer);
     }
+
     const mutationObserver = new MutationObserver(() => {
       const el = document.querySelector(currentStepData.selector);
       if (el && !observers) {
@@ -176,7 +134,9 @@ export function useProductTourLogic({
       mutationObserver.disconnect();
       observers?.resizeObserver.disconnect();
       observers?.intersectionObserver.disconnect();
-      if (rAFRef.current) cancelAnimationFrame(rAFRef.current);
+      if (rAFRef.current) {
+        cancelAnimationFrame(rAFRef.current);
+      }
       clearTimeout(focusTimer);
     };
   }, [currentStepData, isActive, throttledUpdate, isVisible]);
@@ -188,5 +148,7 @@ export function useProductTourLogic({
     currentStepData,
     isLastStep,
     tooltipRef,
+    totalSteps,
+    currentStepIndex: currentStep,
   };
 }
