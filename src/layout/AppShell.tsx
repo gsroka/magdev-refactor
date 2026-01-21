@@ -26,9 +26,6 @@ export default function AppShell({ children }: AppShellProps) {
   const dispatch = useAppDispatch();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
@@ -46,7 +43,7 @@ export default function AppShell({ children }: AppShellProps) {
           <IconButton
             color="inherit"
             edge="start"
-            onClick={handleDrawerToggle}
+            onClick={() => setMobileOpen((prev) => !prev)}
             sx={{ mr: 2, display: { md: 'none' } }}
           >
             <MenuIcon />
@@ -80,7 +77,7 @@ export default function AppShell({ children }: AppShellProps) {
       <Drawer
         variant="temporary"
         open={mobileOpen}
-        onClose={handleDrawerToggle}
+        onClose={() => setMobileOpen(false)}
         ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: 'block', md: 'none' },
@@ -114,7 +111,7 @@ export default function AppShell({ children }: AppShellProps) {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { xs: `calc(100% - ${DRAWER_WIDTH}px)` },
+          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { md: `${DRAWER_WIDTH}px` },
           mt: '64px',
           backgroundColor: '#f5f5f5',
