@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 export default function UserSection() {
   const [users] = useState<User[]>(initialUsers);
   const [featuredUser, setFeaturedUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
