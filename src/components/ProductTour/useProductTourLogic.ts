@@ -23,8 +23,8 @@ export interface ProductTourState {
 const TOOLTIP_WIDTH = 320;
 const TOOLTIP_HEIGHT = 180;
 const TOOLTIP_OFFSET = 12;
-const OBSERVER_THROTTLE_MS = 100;
-const OBSERVER_ELEMENT = 'root';
+const FOCUS_DELAY_MS = 100;
+const ROOT_ELEMENT_ID = 'root';
 
 export function useProductTourLogic({
   currentStep,
@@ -51,7 +51,7 @@ export function useProductTourLogic({
     }
   }, []);
 
-  const throttledUpdate = useCallback(() => {
+  const updatePosition = useCallback(() => {
     if (rAFRef.current) {
       cancelAnimationFrame(rAFRef.current);
     }
@@ -87,8 +87,8 @@ export function useProductTourLogic({
       const position = calculateTooltipPosition(
         rect,
         currentStepData.position,
-        TOOLTIP_WIDTH,
-        TOOLTIP_HEIGHT,
+        tooltipRef.current?.offsetWidth ?? TOOLTIP_WIDTH,
+        tooltipRef.current?.offsetHeight ?? TOOLTIP_HEIGHT,
         TOOLTIP_OFFSET
       );
 
@@ -100,6 +100,12 @@ export function useProductTourLogic({
   }, [currentStepData, isActive]);
 
   useEffect(() => {
+    if (isVisible && tooltipRef.current) {
+      updatePosition();
+    }
+  }, [isVisible, updatePosition]);
+
+  useEffect(() => {
     if (!isActive || !currentStepData) {
       setIsVisible(false);
       cleanupObservers();
@@ -109,23 +115,23 @@ export function useProductTourLogic({
     const controller = new AbortController();
     const { signal } = controller;
 
-    window.addEventListener('resize', throttledUpdate, { signal });
-    window.addEventListener('scroll', throttledUpdate, { signal, capture: true });
+    window.addEventListener('resize', updatePosition, { signal });
+    window.addEventListener('scroll', updatePosition, { signal, capture: true });
 
-    const rootContainer = document.getElementById(OBSERVER_ELEMENT) ?? document.body;
+    const rootContainer = document.getElementById(ROOT_ELEMENT_ID) ?? document.body;
     const targetElement = document.querySelector(currentStepData.selector);
 
     if (targetElement) {
       cleanupObservers();
-      observersRef.current = setupTourObservers(targetElement, throttledUpdate, rootContainer);
+      observersRef.current = setupTourObservers(targetElement, updatePosition, rootContainer);
     }
 
     const mutationObserver = new MutationObserver(() => {
       const el = document.querySelector(currentStepData.selector);
       if (el && !observersRef.current) {
-        observersRef.current = setupTourObservers(el, throttledUpdate, rootContainer);
-        throttledUpdate();
-      } else if (!el && isVisible) {
+        observersRef.current = setupTourObservers(el, updatePosition, rootContainer);
+        updatePosition();
+      } else if (!el && observersRef.current) {
         cleanupObservers();
         setIsVisible(false);
       }
@@ -133,11 +139,11 @@ export function useProductTourLogic({
 
     mutationObserver.observe(rootContainer, { childList: true, subtree: true });
 
-    throttledUpdate();
+    updatePosition();
 
     const focusTimer = setTimeout(() => {
       tooltipRef.current?.focus();
-    }, OBSERVER_THROTTLE_MS);
+    }, FOCUS_DELAY_MS);
 
     return () => {
       controller.abort();
@@ -148,7 +154,7 @@ export function useProductTourLogic({
       }
       clearTimeout(focusTimer);
     };
-  }, [currentStepData, isActive, throttledUpdate, isVisible, cleanupObservers]);
+  }, [currentStepData, isActive, updatePosition, cleanupObservers]);
 
   return {
     tooltipPosition,
